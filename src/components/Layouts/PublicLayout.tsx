@@ -5,6 +5,7 @@ import { Button } from "../ui/button";
 import { Github, Menu, Moon, Sun, X } from "lucide-react";
 import ClickSpark from "../ClickSpark";
 import { motion, AnimatePresence } from "motion/react";
+import LoadingScreen from "./LoadingScreen";
 
 const ORB_COLOR = '#3b82f6';
 
@@ -34,14 +35,16 @@ export default function PublicLayout({ children }: PublicLayoutProps) {
         , []);
 
     return (
-        <ClickSpark
-            sparkColor='#fff'
-            sparkSize={10}
-            sparkRadius={15}
-            sparkCount={8}
-            duration={400}
-        >
-            <div className="min-h-dvh w-full flex flex-col bg-background relative overflow-x-hidden">
+        <>
+            <LoadingScreen />
+            <ClickSpark
+                sparkColor='#fff'
+                sparkSize={10}
+                sparkRadius={15}
+                sparkCount={8}
+                duration={400}
+            >
+                <div className="min-h-dvh w-full flex flex-col bg-background relative overflow-x-hidden">
                 <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
                     {glowOrbs.map(orb => (
                         <div
@@ -160,5 +163,6 @@ export default function PublicLayout({ children }: PublicLayoutProps) {
                 </footer>
             </div>
         </ClickSpark>
+    </>
     )
 }
