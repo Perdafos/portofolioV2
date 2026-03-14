@@ -1,4 +1,4 @@
-import { useRef, useState, useEffect, forwardRef } from 'react';
+import { useRef, useEffect, forwardRef } from 'react';
 import type { ThreeEvent } from '@react-three/fiber';
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
 import { EffectComposer, wrapEffect } from '@react-three/postprocessing';

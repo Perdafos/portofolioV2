@@ -58,6 +58,70 @@ Output will be saved in the `dist/` folder ready for deployment.
 npm run preview
 ```
 
+## Supabase Database Setup
+
+Project ini sekarang sudah terintegrasi dengan Supabase untuk data pada section **My Setup** dan **Blog**.
+
+### 1. Buat project di Supabase
+
+- Buka [Supabase Dashboard](https://supabase.com)
+- Buat project baru
+- Ambil:
+  - Project URL
+  - Anon public key
+
+### 2. Siapkan environment variables
+
+Copy file `.env.example` menjadi `.env`, lalu isi nilai Supabase:
+
+```bash
+VITE_GITHUB_USERNAME=Perdafos
+VITE_CLERK_PUBLISHABLE_KEY=pk_test_xxxxx
+VITE_CLERK_SUPABASE_JWT_TEMPLATE=supabase
+VITE_SUPABASE_URL=https://your-project-ref.supabase.co
+VITE_SUPABASE_ANON_KEY=your-anon-key
+VITE_BLOG_ADMIN_PATH=secret-path-kamu
+```
+
+### 3. Buat tabel di Supabase
+
+Jalankan SQL ini di **SQL Editor** Supabase:
+
+- `backend/supabase/setup_items.sql`
+- `backend/supabase/blog_posts.sql`
+
+Script tersebut akan:
+
+- Membuat tabel `public.setup_items`
+- Membuat tabel `public.blog_posts`
+- Membuat index untuk query category + sort
+- Mengisi data awal sample
+- Mengaktifkan RLS policy (publik hanya bisa baca artikel publish, akun authenticated bisa kelola blog)
+
+### 4. Setup Clerk untuk admin blog
+
+1. Buat aplikasi di [Clerk Dashboard](https://dashboard.clerk.com)
+2. Ambil publishable key dan isi ke `VITE_CLERK_PUBLISHABLE_KEY`
+3. Buat JWT template di Clerk dengan nama `supabase` (atau sesuai `VITE_CLERK_SUPABASE_JWT_TEMPLATE`)
+4. Konfigurasikan Supabase agar menerima JWT dari Clerk (Third-party Auth/JWKS)
+
+Admin panel blog tersedia di route rahasia sesuai `VITE_BLOG_ADMIN_PATH`, dan halaman tersebut sekarang diproteksi oleh Clerk.
+
+Jika belum login Clerk, user akan diarahkan ke halaman Sign In Clerk.
+
+Contoh jika `VITE_BLOG_ADMIN_PATH=ruang-admin-blog-rahasia`, maka URL admin:
+
+`http://localhost:5173/ruang-admin-blog-rahasia`
+
+### 5. Jalankan aplikasi
+
+```bash
+npm run dev
+```
+
+Jika koneksi berhasil dan tabel terisi, pada card **My Setup** akan muncul label `Source: Supabase`.
+Jika env belum diisi atau query gagal, aplikasi otomatis fallback ke data lokal (`Source: Local`).
+
 ## Project Structure
 
 ```

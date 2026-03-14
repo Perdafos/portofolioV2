@@ -11,8 +11,10 @@
   },
   "dependencies": {
     "@callstack/react-theme-provider": "^3.0.9",
+    "@clerk/react": "^6.1.0",
     "@react-three/fiber": "^9.5.0",
     "@react-three/postprocessing": "^3.0.4",
+    "@supabase/supabase-js": "^2.99.1",
     "@tailwindcss/vite": "^4.2.1",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",

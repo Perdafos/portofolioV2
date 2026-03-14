@@ -3,6 +3,8 @@ import AboutSection from "@/components/home/AboutSection";
 import ContactSection from "@/components/home/ContactSection";
 import HeroSection from "@/components/home/HeroSection";
 import ProjectsSection from "@/components/home/ProjectsSection";
+import BlogSection from "@/components/home/BlogSection";
+import SetupSection from "@/components/home/SetupSection";
 import SkillsSection from "@/components/home/SkillsSection";
 
 export default function App() {
@@ -15,6 +17,8 @@ export default function App() {
         <AboutSection />
         <SkillsSection />
         <ProjectsSection githubUsername={githubUsername} />
+        <BlogSection />
+        <SetupSection />
         <ContactSection />
       </div>
     </PublicLayout>

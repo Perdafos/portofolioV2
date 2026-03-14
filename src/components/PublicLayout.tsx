@@ -16,8 +16,7 @@ export default function PublicLayout({ children }: PublicLayoutProps) {
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const navLinks = [
         { to: "/", label: "Home" },
-        { to: "/about", label: "About" },
-        { to: "/contact", label: "Contact" },
+        { to: "/blog", label: "Blog" },
     ];
 
     const glowOrbs = useMemo(() =>
