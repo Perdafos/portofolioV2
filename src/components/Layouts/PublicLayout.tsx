@@ -22,17 +22,21 @@ export default function PublicLayout({ children }: PublicLayoutProps) {
         { to: "/blog", label: "Blog" },
     ];
 
-    const glowOrbs = useMemo(() =>
-        Array.from({ length: 6 }, (_, i) => ({
+    const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
+
+    const glowOrbs = useMemo(() => {
+        // Reduced orbs for mobile to save CPU/TBT
+        const count = isMobile ? 3 : 6;
+        return Array.from({ length: count }, (_, i) => ({
             id: i,
             top: `${Math.random() * 85 + 5}%`,
             left: `${Math.random() * 85 + 5}%`,
-            size: Math.floor(Math.random() * 200 + 200),
+            size: Math.floor(Math.random() * 150 + 150), // Smaller orbs
             delay: `${(Math.random() * 7).toFixed(2)}s`,
             duration: `${(Math.random() * 4 + 3).toFixed(2)}s`,
             color: ORB_COLOR,
-        }))
-        , []);
+        }));
+    }, [isMobile]);
 
     return (
         <>

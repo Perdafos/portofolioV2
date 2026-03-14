@@ -10,4 +10,19 @@ export default defineConfig({
       "@": path.resolve(__dirname, "./src"),
     },
   },
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          'vendor-react': ['react', 'react-dom', 'react-router-dom'],
+          'vendor-clerk': ['@clerk/react'],
+          'vendor-ui': ['lucide-react', 'motion'],
+          'vendor-utils': ['clsx', 'tailwind-merge'],
+        }
+      }
+    },
+    chunkSizeWarningLimit: 600,
+    cssCodeSplit: true,
+    minify: 'esbuild',
+  }
 })

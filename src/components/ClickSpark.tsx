@@ -34,7 +34,7 @@ const ClickSpark: React.FC<ClickSparkProps> = ({
 
   useEffect(() => {
     const canvas = canvasRef.current;
-    if (!canvas) return;
+    if (!canvas || window.innerWidth < 768) return;
 
     const resizeCanvas = () => {
       canvas.width = window.innerWidth;
