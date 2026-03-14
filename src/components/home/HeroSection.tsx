@@ -2,7 +2,6 @@ import { Sparkles } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import dafaImage from "@/assets/images/dafa.webp";
-import { motion } from "motion/react";
 
 export default function HeroSection() {
   return (
