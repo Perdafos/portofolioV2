@@ -79,15 +79,6 @@ export default function BlogPostPage() {
     };
   }, [slug]);
 
-  const paragraphs = useMemo(
-    () =>
-      (post?.content ?? "")
-        .split(/\n{2,}/)
-        .map((segment) => segment.trim())
-        .filter((segment) => segment.length > 0),
-    [post?.content]
-  );
-
   return (
     <PublicLayout>
       <section className="w-full max-w-3xl flex flex-col">
