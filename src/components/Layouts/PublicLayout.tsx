@@ -1,9 +1,9 @@
 import { useMemo, useState, type ReactNode } from "react";
 import { useTheme } from "@/components/theme-provider";
 import { Link } from "react-router-dom";
-import { Button } from "./ui/button";
+import { Button } from "../ui/button";
 import { Github, Menu, Moon, Sun, X } from "lucide-react";
-import ClickSpark from "./ClickSpark";
+import ClickSpark from "../ClickSpark";
 
 const ORB_COLOR = '#3b82f6';
 

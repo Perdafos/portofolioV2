@@ -2,14 +2,22 @@ import { Sparkles } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import dafaImage from "@/assets/images/dafa.jpeg";
+import { motion } from "motion/react";
 
 export default function HeroSection() {
   return (
-    <section className="flex min-h-[calc(100dvh-7rem)] md:min-h-[calc(100dvh-8rem)] flex-col justify-center items-center w-full mx-auto px-4 md:px-6">
-      <div className="w-30 h-30">
-        <img src={dafaImage} className="w-full h-full  object-fit rounded-full" alt="Dafa Ghaitsa" />
-      </div>
-      <Badge variant="outline" className="text-sm px-8 py-2 mt-2"><Sparkles className="mr-1" /> Discover More About Me</Badge>
+    <motion.section
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.8, ease: "easeOut" }}
+      className="flex min-h-[calc(100dvh-7rem)] md:min-h-[calc(100dvh-8rem)] flex-col justify-center items-center w-full mx-auto px-4 md:px-6"
+    >
+      <a href="w-full flex justify-center items-center gap-4" target="_blank" className="flex flex-col justify-center items-center gap-4">
+        <div className="w-30 h-30">
+          <img src={dafaImage} className="w-full h-full object-fit rounded-full" alt="Dafa Ghaitsa" />
+        </div>
+        <Badge variant="outline" className="text-sm px-8 py-2"><Sparkles className="mr-1" /> Discover More About Me</Badge>
+      </a>
       <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-center mt-6">
         The World Without Art{" "}
         <span className="gradient-text">Its Just A Rock,</span>
@@ -31,6 +39,6 @@ export default function HeroSection() {
           Contact Me
         </Button>
       </div>
-    </section>
+    </motion.section>
   );
 }

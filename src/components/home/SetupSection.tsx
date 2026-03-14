@@ -16,6 +16,7 @@ import { getSetupItems } from "@/backend/services/setupService";
 import type { SetupItem } from "@/backend/types/setup";
 import setup1Image from "@/assets/images/setup1.jpg";
 import setup2Image from "@/assets/images/setup2.jpg";
+import { motion } from "motion/react";
 
 function getHardwareIcon(label: string) {
     switch (label.toLowerCase()) {
@@ -96,7 +97,13 @@ export default function SetupSection() {
     );
 
     return (
-        <section className="w-full flex flex-col">
+        <motion.section
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, ease: "easeOut" }}
+            viewport={{ once: true }}
+            className="w-full flex flex-col"
+        >
             <div className="w-full flex flex-wrap justify-between items-end gap-3">
                 <div className="flex flex-col gap-2">
                     <p className="text-sm uppercase tracking-[0.3em] text-primary/90">Setup</p>
@@ -231,6 +238,6 @@ export default function SetupSection() {
                     </div>
                 </Card>
             </div>
-        </section>
+        </motion.section>
     );
 }

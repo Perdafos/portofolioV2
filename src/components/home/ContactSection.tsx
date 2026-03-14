@@ -1,10 +1,17 @@
 import { Mail, MapPin, Phone } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { motion } from "motion/react";
 
 export default function ContactSection() {
   return (
-    <section className="w-full mx-auto px-4 md:px-10 flex flex-col">
+    <motion.section
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.8, ease: "easeOut" }}
+      viewport={{ once: true }}
+      className="w-full mx-auto px-4 md:px-10 flex flex-col"
+    >
       <div className="w-full flex flex-wrap justify-between items-end gap-3">
         <div className="flex flex-col gap-2">
           <p className="text-sm uppercase tracking-[0.3em] text-primary/90">Contact</p>
@@ -58,6 +65,6 @@ export default function ContactSection() {
           </div>
         </div>
       </div>
-    </section>
+    </motion.section>
   );
 }

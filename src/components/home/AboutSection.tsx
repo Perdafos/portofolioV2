@@ -1,8 +1,15 @@
 import dafaImage from "@/assets/images/dafa.jpeg";
+import { motion } from "motion/react";
 
 export default function AboutSection() {
   return (
-    <section className="text-muted-foreground flex flex-col md:flex-row w-full mx-auto justify-between items-center gap-8">
+    <motion.section
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.8, ease: "easeOut" }}
+      viewport={{ once: true }}
+      className="text-muted-foreground flex flex-col md:flex-row w-full mx-auto justify-between items-center gap-8"
+    >
       <div className="flex-col w-full">
         <div className="w-full flex flex-wrap justify-between items-end gap-3">
           <div className="flex flex-col gap-2">
@@ -22,6 +29,6 @@ export default function AboutSection() {
           className="h-64 md:h-98 rounded-sm grayscale hover:grayscale-0 transition-all duration-300 cursor-pointer"
         />
       </div>
-    </section>
+    </motion.section>
   );
 }

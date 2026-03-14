@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight, CalendarDays, Clock3 } from "lucide-react";
-import PublicLayout from "@/components/PublicLayout";
+import PublicLayout from "@/components/Layouts/PublicLayout";
 import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
 import { getPublishedBlogPosts } from "@/backend/services/blogService";
