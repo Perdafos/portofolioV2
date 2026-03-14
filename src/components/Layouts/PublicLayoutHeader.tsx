@@ -6,6 +6,7 @@ import { useTheme } from "@/components/theme-provider";
 import { motion, AnimatePresence } from "motion/react";
 import { searchBlogPosts } from "@/backend/services/blogService";
 import { type BlogPostPreview } from "@/backend/types/blog";
+import { cn } from "@/lib/utils";
 
 type NavLink = { to: string; label: string };
 
@@ -128,7 +129,7 @@ export default function PublicLayoutHeader({
         </nav>
 
         <div className="flex flex-1 items-center justify-end gap-2 md:gap-3">
-          <div className="relative flex items-center" ref={searchRef}>
+          <div className="relative flex items-center lg:flex hidden" ref={searchRef}>
             <Search className="absolute left-3 h-4 w-4 text-muted-foreground" />
             <input
               type="text"
@@ -155,7 +156,7 @@ export default function PublicLayoutHeader({
           <Button
             variant="ghost"
             size="sm"
-            className="rounded-lg cursor-pointer"
+            className={cn("rounded-lg cursor-pointer", isMobileMenuOpen && "hidden lg:flex")}
             onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
           >
             <Sun className="h-4 w-4 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
