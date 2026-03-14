@@ -1,9 +1,10 @@
-import { useMemo, useState, type ReactNode } from "react";
+import { useMemo, useState, type ReactNode, useEffect } from "react";
 import { useTheme } from "@/components/theme-provider";
 import { Link } from "react-router-dom";
 import { Button } from "../ui/button";
-import { Github, Menu, Moon, Sun, X } from "lucide-react";
+import { Github, Loader2, Menu, Moon, Sun, X } from "lucide-react";
 import ClickSpark from "../ClickSpark";
+import { motion, AnimatePresence } from "motion/react";
 
 const ORB_COLOR = '#3b82f6';
 
@@ -14,6 +15,16 @@ interface PublicLayoutProps {
 export default function PublicLayout({ children }: PublicLayoutProps) {
     const { theme, setTheme } = useTheme();
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
+
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            setIsLoading(false);
+        }, 1500);
+
+        return () => clearTimeout(timer);
+    }, []);
+
     const navLinks = [
         { to: "/", label: "Home" },
         { to: "/blog", label: "Blog" },
@@ -39,7 +50,33 @@ export default function PublicLayout({ children }: PublicLayoutProps) {
             sparkCount={8}
             duration={400}
         >
-            <div className="min-h-dvh w-full flex flex-col bg-background relative overflow-x-hidden">
+            <AnimatePresence mode="wait">
+                {isLoading ? (
+                    <motion.div
+                        key="loader"
+                        initial={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        transition={{ duration: 0.5, ease: "easeInOut" }}
+                        className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-background"
+                    >
+                        <motion.div
+                            initial={{ scale: 0.8, opacity: 0 }}
+                            animate={{ scale: 1, opacity: 1 }}
+                            transition={{ duration: 0.4 }}
+                            className="flex flex-col items-center gap-4"
+                        >
+                            <Loader2 className="h-12 w-12 animate-spin text-primary" />
+                            <h2 className="text-xl font-bold text-foreground">
+                                <span className="brand-glitch" data-text-hover="Dafa Ghaitsa Yogatama">
+                                    Perdafos
+                                </span>
+                            </h2>
+                        </motion.div>
+                    </motion.div>
+                ) : null}
+            </AnimatePresence>
+
+            <div className={`min-h-dvh w-full flex flex-col bg-background relative overflow-x-hidden ${isLoading ? 'h-screen overflow-hidden' : ''}`}>
                 <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
                     {glowOrbs.map(orb => (
                         <div
@@ -111,33 +148,47 @@ export default function PublicLayout({ children }: PublicLayoutProps) {
                         </div>
                     </div>
 
-                    {isMobileMenuOpen && (
-                        <div className="mt-3 border-t border-border pt-3 lg:hidden">
-                            <nav className="flex flex-col gap-2 font-bold text-foreground">
-                                {navLinks.map((item) => (
-                                    <Link
-                                        key={item.to}
-                                        className="rounded-md px-2 py-1.5 text-foreground transition-colors hover:text-primary"
-                                        to={item.to}
-                                        onClick={() => setIsMobileMenuOpen(false)}
-                                    >
-                                        {item.label}
-                                    </Link>
-                                ))}
-                            </nav>
+                    <AnimatePresence>
+                        {isMobileMenuOpen && (
+                            <motion.div
+                                initial={{ opacity: 0, height: 0 }}
+                                animate={{ opacity: 1, height: 'auto' }}
+                                exit={{ opacity: 0, height: 0 }}
+                                className="overflow-hidden lg:hidden"
+                            >
+                                <div className="mt-3 border-t border-border pt-3">
+                                    <nav className="flex flex-col gap-2 font-bold text-foreground">
+                                        {navLinks.map((item) => (
+                                            <Link
+                                                key={item.to}
+                                                className="rounded-md px-2 py-1.5 text-foreground transition-colors hover:text-primary"
+                                                to={item.to}
+                                                onClick={() => setIsMobileMenuOpen(false)}
+                                            >
+                                                {item.label}
+                                            </Link>
+                                        ))}
+                                    </nav>
 
-                            <Button variant="outline" size="sm" className="mt-3 w-full gap-2" asChild>
-                                <a href="https://github.com/perdafos" target="_blank" rel="noopener noreferrer">
-                                    <Github className="h-4 w-4" /> GitHub
-                                </a>
-                            </Button>
-                        </div>
-                    )}
+                                    <Button variant="outline" size="sm" className="mt-3 w-full gap-2" asChild>
+                                        <a href="https://github.com/perdafos" target="_blank" rel="noopener noreferrer">
+                                            <Github className="h-4 w-4" /> GitHub
+                                        </a>
+                                    </Button>
+                                </div>
+                            </motion.div>
+                        )}
+                    </AnimatePresence>
                 </header>
 
-                <main className="z-10 mx-auto flex w-full max-w-7xl flex-1 flex-col items-center justify-start px-4 pt-24 pb-24 sm:px-6 md:pt-28 md:pb-0">
+                <motion.main
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={!isLoading ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
+                    transition={{ duration: 0.5, delay: 0.2 }}
+                    className="z-10 mx-auto flex w-full max-w-7xl flex-1 flex-col items-center justify-start px-4 pt-24 pb-24 sm:px-6 md:pt-28 md:pb-0"
+                >
                     {children}
-                </main>
+                </motion.main>
 
                 <footer className="w-full text-center py-4 text-xs text-muted-foreground/70 border-t border-border bg-background/80 md:mt-40 mt-24">
                     &copy; {new Date().getFullYear()} Perdafos. All rights reserved.

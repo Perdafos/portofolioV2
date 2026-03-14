@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import type { FormEvent } from "react";
 import { useAuth, useClerk, useUser } from "@clerk/react";
-import { AlertCircle, LoaderCircle, LogOut, Plus, Save, Trash2 } from "lucide-react";
+import { AlertCircle, Code, LoaderCircle, LogOut, Plus, Save, Trash2 } from "lucide-react";
 import {
   createBlogPost,
   createBlogSlug,
@@ -197,6 +197,22 @@ export default function BlogAdminPage() {
     setEditor(createDefaultEditorState());
     setMessage("");
     setErrorMessage("");
+  };
+
+  const insertCodeBlock = () => {
+    const codeTemplate = "\n```typescript\n// Tulis kode di sini\nconsole.log(\"Hello World\");\n```\n";
+    setEditor((current) => ({
+      ...current,
+      content: current.content + (current.content && !current.content.endsWith("\n") ? "\n" : "") + codeTemplate,
+    }));
+  };
+
+  const insertStep = () => {
+    const stepTemplate = "\n### 1. Judul Langkah\n\nDeskripsi langkah di sini.\n";
+    setEditor((current) => ({
+      ...current,
+      content: current.content + (current.content && !current.content.endsWith("\n") ? "\n" : "") + stepTemplate,
+    }));
   };
 
   const savePost = async (event: FormEvent<HTMLFormElement>) => {
@@ -449,17 +465,41 @@ export default function BlogAdminPage() {
               />
             </label>
 
-            <label className="flex flex-col gap-1.5 text-sm">
-              Konten
+            <div className="flex flex-col gap-1.5 text-sm">
+              <div className="flex items-center justify-between">
+                Konten
+                <div className="flex gap-2">
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="xs"
+                    onClick={insertCodeBlock}
+                    title="Insert Code Block"
+                  >
+                    <Code className="h-3 w-3" />
+                    Code
+                  </Button>
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="xs"
+                    onClick={insertStep}
+                    title="Insert Step/Heading"
+                  >
+                    <Plus className="h-3 w-3" />
+                    Step
+                  </Button>
+                </div>
+              </div>
               <textarea
                 required
                 rows={14}
                 value={editor.content}
                 onChange={(event) => setEditor((current) => ({ ...current, content: event.target.value }))}
                 className="rounded-md border border-border bg-background px-3 py-2"
-                placeholder="Tulis isi artikel di sini. Pisahkan paragraf dengan baris kosong."
+                placeholder="Tulis isi artikel di sini. Gunakan Markdown atau tombol di atas."
               />
-            </label>
+            </div>
 
             <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
               <label className="flex flex-col gap-1.5 text-sm">

@@ -14,8 +14,8 @@ import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { getSetupItems } from "@/backend/services/setupService";
 import type { SetupItem } from "@/backend/types/setup";
-import setup1Image from "@/assets/images/setup1.jpg";
-import setup2Image from "@/assets/images/setup2.jpg";
+import setup1Image from "@/assets/images/setup1.webp";
+import setup2Image from "@/assets/images/setup2.webp";
 import { motion } from "motion/react";
 
 function getHardwareIcon(label: string) {
