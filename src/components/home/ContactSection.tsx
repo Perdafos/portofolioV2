@@ -6,11 +6,12 @@ import { motion } from "motion/react";
 export default function ContactSection() {
   return (
     <motion.section
+      id="contact"
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.8, ease: "easeOut" }}
       viewport={{ once: true }}
-      className="w-full mx-auto px-4 md:px-10 flex flex-col"
+      className="w-full mx-auto px-4 md:px-10 flex flex-col scroll-mt-20 md:scroll-mt-32"
     >
       <div className="w-full flex flex-wrap justify-between items-end gap-3">
         <div className="flex flex-col gap-2">
