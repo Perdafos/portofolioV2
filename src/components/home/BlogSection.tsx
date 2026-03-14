@@ -97,7 +97,10 @@ export default function BlogSection() {
               </Card>
             ))
           : posts.map((post) => (
-              <Card key={post.slug} className="group overflow-hidden border-primary/15 bg-card/70 transition-all hover:border-primary/30">
+              <Card 
+                key={post.id} 
+                className="group overflow-hidden border-primary/15 bg-card/70 transition-all hover:border-primary/30"
+              >
                 <Link to={`/blog/${post.slug}`} className="flex h-full flex-col">
                   {post.coverImageUrl ? (
                     <div className="aspect-video overflow-hidden">
@@ -114,22 +117,6 @@ export default function BlogSection() {
                     <div className="aspect-video bg-primary/5 flex items-center justify-center">
                       <CalendarDays className="h-10 w-10 text-primary/20" />
                     </div>
-                  )}
-                key={post.id}
-                className="group overflow-hidden border-primary/20 bg-card/65 transition-all duration-300 hover:-translate-y-1 hover:border-primary/50"
-              >
-                <Link to={`/blog/${post.slug}`} className="flex h-full flex-col">
-                  {post.coverImageUrl ? (
-                    <img
-                      src={post.coverImageUrl}
-                      alt={post.title}
-                      width={400}
-                      height={208}
-                      className="h-52 w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
-                      loading="lazy"
-                    />
-                  ) : (
-                    <div className="h-52 w-full bg-[radial-gradient(circle_at_10%_10%,rgba(59,130,246,0.45),transparent_50%),linear-gradient(130deg,rgba(11,20,54,1),rgba(7,12,33,1))]" />
                   )}
 
                   <div className="flex h-full flex-col px-5 py-5">

@@ -1,8 +1,8 @@
-import { useMemo, useState, type ReactNode, useEffect } from "react";
+import { useMemo, useState, type ReactNode } from "react";
 import { useTheme } from "@/components/theme-provider";
 import { Link } from "react-router-dom";
 import { Button } from "../ui/button";
-import { Github, Loader2, Menu, Moon, Sun, X } from "lucide-react";
+import { Github, Menu, Moon, Sun, X } from "lucide-react";
 import ClickSpark from "../ClickSpark";
 import { motion, AnimatePresence } from "motion/react";
 
@@ -15,29 +15,6 @@ interface PublicLayoutProps {
 export default function PublicLayout({ children }: PublicLayoutProps) {
     const { theme, setTheme } = useTheme();
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-    const [isLoading, setIsLoading] = useState(true);
-
-    useEffect(() => {
-        // loading minimal dikurangi agar FCP lebih cepat
-        const timer = setTimeout(() => {
-            setIsLoading(false);
-        }, 800);
-
-        // Lock scroll while loading
-        if (isLoading) {
-            document.body.style.overflow = 'hidden';
-            document.body.style.touchAction = 'none';
-        } else {
-            document.body.style.overflow = 'unset';
-            document.body.style.touchAction = 'unset';
-        }
-
-        return () => {
-            clearTimeout(timer);
-            document.body.style.overflow = 'unset';
-            document.body.style.touchAction = 'unset';
-        };
-    }, [isLoading]);
 
     const navLinks = [
         { to: "/", label: "Home" },
@@ -64,33 +41,7 @@ export default function PublicLayout({ children }: PublicLayoutProps) {
             sparkCount={8}
             duration={400}
         >
-            <AnimatePresence mode="wait">
-                {isLoading ? (
-                    <motion.div
-                        key="loader"
-                        initial={{ opacity: 1 }}
-                        exit={{ opacity: 0 }}
-                        transition={{ duration: 0.5, ease: "easeInOut" }}
-                        className="fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-background pointer-events-auto"
-                    >
-                        <motion.div
-                            initial={{ scale: 0.8, opacity: 0 }}
-                            animate={{ scale: 1, opacity: 1 }}
-                            transition={{ duration: 0.4 }}
-                            className="flex flex-col items-center gap-4"
-                        >
-                            <Loader2 className="h-12 w-12 animate-spin text-primary" />
-                            <h2 className="text-xl font-bold text-foreground">
-                                <span className="brand-glitch" data-text-hover="Dafa Ghaitsa Yogatama">
-                                    Perdafos
-                                </span>
-                            </h2>
-                        </motion.div>
-                    </motion.div>
-                ) : null}
-            </AnimatePresence>
-
-            <div className={`min-h-dvh w-full flex flex-col bg-background relative overflow-x-hidden ${isLoading ? 'h-screen overflow-hidden' : ''}`}>
+            <div className="min-h-dvh w-full flex flex-col bg-background relative overflow-x-hidden">
                 <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
                     {glowOrbs.map(orb => (
                         <div
@@ -197,7 +148,7 @@ export default function PublicLayout({ children }: PublicLayoutProps) {
 
                 <motion.main
                     initial={{ opacity: 0, y: 10 }}
-                    animate={!isLoading ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.5, delay: 0.2 }}
                     className="z-10 mx-auto flex w-full max-w-7xl flex-1 flex-col items-center justify-start px-4 pt-24 pb-24 sm:px-6 md:pt-28 md:pb-0"
                 >
