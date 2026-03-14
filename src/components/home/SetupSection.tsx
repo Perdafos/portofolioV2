@@ -152,6 +152,9 @@ export default function SetupSection() {
                         <img
                             src={setup1Image}
                             alt="Setup Overview"
+                            width={600}
+                            height={400}
+                            loading="lazy"
                             className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                             onError={(e) => {
                                 (e.currentTarget as HTMLImageElement).style.display = "none";
@@ -174,6 +177,9 @@ export default function SetupSection() {
                         <img
                             src={setup2Image}
                             alt="Setup Close-up"
+                            width={600}
+                            height={400}
+                            loading="lazy"
                             className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                             onError={(e) => {
                                 (e.currentTarget as HTMLImageElement).style.display = "none";
