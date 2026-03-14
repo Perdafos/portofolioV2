@@ -1,6 +1,9 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { ArrowLeft, CalendarDays, Clock3 } from "lucide-react";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
+import rehypeHighlight from "rehype-highlight";
 import PublicLayout from "@/components/Layouts/PublicLayout";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -122,29 +125,32 @@ export default function BlogPostPage() {
               ))}
             </div>
 
-            <h1 className="mt-4 text-3xl font-bold uppercase tracking-[0.08em] text-primary md:text-4xl">
+            <h1 className="mt-4 text-3xl font-bold uppercase tracking-[0.08em] text-foreground md:text-5xl">
               {post.title}
             </h1>
 
-            <div className="mt-4 flex flex-wrap items-center gap-4 text-sm text-muted-foreground">
-              <span className="inline-flex items-center gap-1.5">
+            <div className="mt-6 flex flex-wrap items-center gap-4 text-sm text-muted-foreground/80 font-medium uppercase tracking-widest">
+              <span className="inline-flex items-center gap-1.5 backdrop-blur-sm bg-primary/5 px-3 py-1.5 rounded-full border border-primary/10">
                 <CalendarDays className="h-4 w-4" />
                 {formatDate(post.publishedAt)}
               </span>
-              <span className="inline-flex items-center gap-1.5">
+              <span className="inline-flex items-center gap-1.5 backdrop-blur-sm bg-primary/5 px-3 py-1.5 rounded-full border border-primary/10">
                 <Clock3 className="h-4 w-4" />
                 {post.readingMinutes ?? 1} min read
               </span>
             </div>
 
-            <p className="mt-5 text-lg text-muted-foreground">{post.excerpt}</p>
+            <p className="mt-8 text-xl text-muted-foreground/90 leading-relaxed italic border-l-2 border-primary/20 pl-6">
+              {post.excerpt}
+            </p>
 
-            <div className="mt-10 space-y-6 text-base leading-8 text-foreground/95">
-              {paragraphs.map((paragraph, index) => (
-                <p key={index} className="whitespace-pre-wrap">
-                  {paragraph}
-                </p>
-              ))}
+            <div className="mt-12 prose max-w-none">
+              <ReactMarkdown
+                remarkPlugins={[remarkGfm]}
+                rehypePlugins={[rehypeHighlight]}
+              >
+                {post.content}
+              </ReactMarkdown>
             </div>
           </article>
         ) : (
