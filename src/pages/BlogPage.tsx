@@ -114,28 +114,30 @@ export default function BlogPage() {
                         ))}
                       </div>
 
-                      <h2 className="line-clamp-2 text-xl font-bold uppercase tracking-[0.08em] text-primary">
+                      <h2 className="line-clamp-2 text-xl font-bold uppercase tracking-[0.08em] text-foreground">
                         {post.title}
                       </h2>
 
-                      <p className="mt-3 line-clamp-3 text-sm text-muted-foreground">{post.excerpt}</p>
+                      <p className="mt-3 line-clamp-3 text-sm text-muted-foreground/80 leading-relaxed font-geist">
+                        {post.excerpt}
+                      </p>
 
-                      <div className="mt-auto pt-6 text-xs text-muted-foreground">
+                      <div className="mt-auto pt-6 text-xs text-muted-foreground/70">
                         <div className="flex items-center gap-4">
                           <span className="inline-flex items-center gap-1.5">
                             <CalendarDays className="h-3.5 w-3.5" />
                             {formatDate(post.publishedAt)}
                           </span>
-                          <span className="inline-flex items-center gap-1.5">
+                          <span className="inline-flex items-center gap-1.5 font-medium">
                             <Clock3 className="h-3.5 w-3.5" />
                             {post.readingMinutes ?? 1} min read
                           </span>
                         </div>
                       </div>
 
-                      <div className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-primary">
+                      <div className="mt-5 inline-flex items-center gap-2 text-sm font-bold text-primary/90 hover:text-primary transition-colors group/link">
                         Read Article
-                        <ArrowRight className="h-4 w-4" />
+                        <ArrowRight className="h-4 w-4 transition-transform group-hover/link:translate-x-1" />
                       </div>
                     </div>
                   </Link>
