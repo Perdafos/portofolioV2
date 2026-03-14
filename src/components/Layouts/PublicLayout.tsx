@@ -1,6 +1,5 @@
 import { useMemo, type ReactNode } from "react";
 import ClickSpark from "../ClickSpark";
-import { motion } from "motion/react";
 import LoadingScreen from "./LoadingScreen";
 import PublicLayoutHeader from "./PublicLayoutHeader";
 import PublicFooter from "./PublicFooter";
@@ -15,13 +14,15 @@ export default function PublicLayout({ children }: PublicLayoutProps) {
     const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
 
     const glowOrbs = useMemo(() => {
-        // Reduced orbs for mobile to save CPU/TBT
-        const count = isMobile ? 2 : 4;
+        // Disabled on mobile for performance (Total Blocking Time)
+        if (isMobile) return [];
+        
+        const count = 4;
         return Array.from({ length: count }, (_, i) => ({
             id: i,
             top: `${Math.random() * 85 + 5}%`,
             left: `${Math.random() * 85 + 5}%`,
-            size: Math.floor(Math.random() * 100 + 100), // even smaller
+            size: Math.floor(Math.random() * 100 + 100),
             delay: `${(Math.random() * 7).toFixed(2)}s`,
             duration: `${(Math.random() * 4 + 3).toFixed(2)}s`,
             color: ORB_COLOR,
@@ -35,7 +36,7 @@ export default function PublicLayout({ children }: PublicLayoutProps) {
                 sparkColor='#fff'
                 sparkSize={10}
                 sparkRadius={15}
-                sparkCount={8}
+                sparkCount={isMobile ? 0 : 8}
                 duration={400}
             >
                 <div className="min-h-dvh w-full flex flex-col bg-background relative overflow-x-hidden">
@@ -65,14 +66,11 @@ export default function PublicLayout({ children }: PublicLayoutProps) {
                 
                 <PublicLayoutHeader />
 
-                <motion.main
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5, delay: 0.2 }}
+                <main
                     className="z-10 mx-auto flex w-full max-w-7xl flex-1 flex-col items-center justify-start px-4 pt-24 pb-24 sm:px-6 md:pt-28 md:pb-0"
                 >
                     {children}
-                </motion.main>
+                </main>
 
                 <PublicFooter />
             </div>
