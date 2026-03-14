@@ -506,7 +506,7 @@ export default function BlogAdminPage() {
                 </div>
               </div>
               {isPreview ? (
-                <div className="min-h-[354px] rounded-md border border-border bg-background/50 px-4 py-3 prose max-w-none overflow-y-auto">
+                <div className="min-h-[354px] max-h-[600px] rounded-md border border-border bg-background/50 px-6 py-4 prose max-w-none overflow-y-auto antialiased">
                   <ReactMarkdown
                     remarkPlugins={[remarkGfm]}
                     rehypePlugins={[rehypeHighlight]}
@@ -520,7 +520,7 @@ export default function BlogAdminPage() {
                   rows={14}
                   value={editor.content}
                   onChange={(event) => setEditor((current) => ({ ...current, content: event.target.value }))}
-                  className="rounded-md border border-border bg-background px-3 py-2 font-mono text-sm leading-relaxed"
+                  className="rounded-md border border-border bg-background px-3 py-2 font-mono text-sm leading-relaxed focus:outline-none focus:ring-1 focus:ring-primary/30"
                   placeholder="Tulis isi artikel di sini. Gunakan Markdown atau tombol di atas."
                 />
               )}
