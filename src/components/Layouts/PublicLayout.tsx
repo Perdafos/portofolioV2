@@ -23,11 +23,11 @@ export default function PublicLayout({ children }: PublicLayoutProps) {
     ];
 
     const glowOrbs = useMemo(() =>
-        Array.from({ length: 12 }, (_, i) => ({
+        Array.from({ length: 6 }, (_, i) => ({
             id: i,
             top: `${Math.random() * 85 + 5}%`,
             left: `${Math.random() * 85 + 5}%`,
-            size: Math.floor(Math.random() * 300 + 250),
+            size: Math.floor(Math.random() * 200 + 200),
             delay: `${(Math.random() * 7).toFixed(2)}s`,
             duration: `${(Math.random() * 4 + 3).toFixed(2)}s`,
             color: ORB_COLOR,

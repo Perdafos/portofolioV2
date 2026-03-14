@@ -1,4 +1,4 @@
-import { StrictMode } from "react";
+import { StrictMode, lazy, Suspense } from "react";
 import { createRoot } from "react-dom/client";
 import {
   ClerkProvider,
@@ -7,11 +7,13 @@ import {
 } from "@clerk/react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./index.css";
-import App from "./pages/App.tsx";
-import BlogPage from "./pages/BlogPage.tsx";
-import BlogPostPage from "./pages/BlogPostPage.tsx";
-import BlogAdminPage from "./pages/BlogAdminPage.tsx";
+import LoadingScreen from "./components/Layouts/LoadingScreen.tsx";
 import { ThemeProvider } from "./components/theme-provider";
+
+const App = lazy(() => import("./pages/App.tsx"));
+const BlogPage = lazy(() => import("./pages/BlogPage.tsx"));
+const BlogPostPage = lazy(() => import("./pages/BlogPostPage.tsx"));
+const BlogAdminPage = lazy(() => import("./pages/BlogAdminPage.tsx"));
 
 const clerkPublishableKey = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
 const isClerkConfigured = Boolean(clerkPublishableKey);
@@ -36,14 +38,16 @@ function ProtectedAdminRoute() {
 const appRoutes = (
   <ThemeProvider defaultTheme="dark" storageKey="portofolio-theme">
     <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<App />} />
-        <Route path="/blog" element={<BlogPage />} />
-        <Route path="/blog/:slug" element={<BlogPostPage />} />
-        {adminRoutePath && isClerkConfigured ? (
-          <Route path={adminRoutePath} element={<ProtectedAdminRoute />} />
-        ) : null}
-      </Routes>
+      <Suspense fallback={<LoadingScreen />}>
+        <Routes>
+          <Route path="/" element={<App />} />
+          <Route path="/blog" element={<BlogPage />} />
+          <Route path="/blog/:slug" element={<BlogPostPage />} />
+          {adminRoutePath && isClerkConfigured ? (
+            <Route path={adminRoutePath} element={<ProtectedAdminRoute />} />
+          ) : null}
+        </Routes>
+      </Suspense>
     </BrowserRouter>
   </ThemeProvider>
 );
