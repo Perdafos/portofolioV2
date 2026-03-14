@@ -22,7 +22,7 @@ export default function PublicLayoutHeader({
       <div className="relative flex w-full items-center gap-2 sm:gap-3">
         <h1 className="shrink-0 cursor-pointer text-xl font-bold text-foreground sm:text-2xl">
           <span className="brand-glitch" data-text-hover="Dafa Ghaitsa Yogatama" aria-label="Perdafos">
-            <Link to="/"></Link><span to="brand-glitch-base">Perdafos</span>
+            <Link to="/"><span className="brand-glitch-base">Perdafos</span></Link>
           </span>
         </h1>
 
