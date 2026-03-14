@@ -88,7 +88,7 @@ export default function BlogSection() {
         {isLoading
           ? Array.from({ length: 3 }).map((_, index) => (
               <Card key={index} className="overflow-hidden border-primary/15 bg-card/70">
-                <div className="h-52 animate-pulse bg-primary/10" />
+                <div className="aspect-video animate-pulse bg-primary/10" />
                 <div className="space-y-3 px-5 py-5">
                   <div className="h-5 w-2/3 animate-pulse rounded bg-primary/10" />
                   <div className="h-4 w-full animate-pulse rounded bg-primary/10" />
@@ -97,7 +97,24 @@ export default function BlogSection() {
               </Card>
             ))
           : posts.map((post) => (
-              <Card
+              <Card key={post.slug} className="group overflow-hidden border-primary/15 bg-card/70 transition-all hover:border-primary/30">
+                <Link to={`/blog/${post.slug}`} className="flex h-full flex-col">
+                  {post.coverImageUrl ? (
+                    <div className="aspect-video overflow-hidden">
+                      <img
+                        src={post.coverImageUrl}
+                        alt={post.title}
+                        width={400}
+                        height={225}
+                        loading="lazy"
+                        className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+                      />
+                    </div>
+                  ) : (
+                    <div className="aspect-video bg-primary/5 flex items-center justify-center">
+                      <CalendarDays className="h-10 w-10 text-primary/20" />
+                    </div>
+                  )}
                 key={post.id}
                 className="group overflow-hidden border-primary/20 bg-card/65 transition-all duration-300 hover:-translate-y-1 hover:border-primary/50"
               >

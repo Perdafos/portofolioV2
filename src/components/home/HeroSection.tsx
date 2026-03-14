@@ -13,10 +13,10 @@ export default function HeroSection() {
       className="flex min-h-[calc(100dvh-7rem)] md:min-h-[calc(100dvh-8rem)] flex-col justify-center items-center w-full mx-auto px-4 md:px-6"
     >
       <a href="#about" className="flex flex-col justify-center items-center gap-4">
-        <div className="w-30 h-30">
+        <div className="w-30 h-30 overflow-hidden rounded-full aspect-square bg-muted">
           <img 
             src={dafaImage} 
-            className="w-full h-full object-fit rounded-full" 
+            className="w-full h-full object-cover" 
             alt="Dafa Ghaitsa" 
             width={120} 
             height={120}

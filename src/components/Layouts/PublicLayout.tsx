@@ -23,8 +23,21 @@ export default function PublicLayout({ children }: PublicLayoutProps) {
             setIsLoading(false);
         }, 800);
 
-        return () => clearTimeout(timer);
-    }, []);
+        // Lock scroll while loading
+        if (isLoading) {
+            document.body.style.overflow = 'hidden';
+            document.body.style.touchAction = 'none';
+        } else {
+            document.body.style.overflow = 'unset';
+            document.body.style.touchAction = 'unset';
+        }
+
+        return () => {
+            clearTimeout(timer);
+            document.body.style.overflow = 'unset';
+            document.body.style.touchAction = 'unset';
+        };
+    }, [isLoading]);
 
     const navLinks = [
         { to: "/", label: "Home" },
@@ -58,7 +71,7 @@ export default function PublicLayout({ children }: PublicLayoutProps) {
                         initial={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
                         transition={{ duration: 0.5, ease: "easeInOut" }}
-                        className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-background"
+                        className="fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-background pointer-events-auto"
                     >
                         <motion.div
                             initial={{ scale: 0.8, opacity: 0 }}

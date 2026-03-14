@@ -23,7 +23,9 @@ export default function ProjectsSection({ githubUsername }: ProjectsSectionProps
         </div>
       </div>
       <hr className="my-4 w-1/4" />
-      <GitHubFavoriteProjects username={githubUsername} />
+      <div className="min-h-[400px]">
+        <GitHubFavoriteProjects username={githubUsername} />
+      </div>
       <div className="flex justify-center">
         <a
           href={`https://github.com/${githubUsername}`}
