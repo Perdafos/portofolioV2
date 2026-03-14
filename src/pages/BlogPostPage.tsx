@@ -144,7 +144,7 @@ export default function BlogPostPage() {
               {post.excerpt}
             </p>
 
-            <div className="mt-12 prose prose-invert max-w-none">
+            <div className="mt-12 prose max-w-none">
               <ReactMarkdown
                 remarkPlugins={[remarkGfm]}
                 rehypePlugins={[rehypeHighlight]}

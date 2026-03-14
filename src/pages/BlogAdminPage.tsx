@@ -1,7 +1,10 @@
 import { useEffect, useMemo, useState } from "react";
 import type { FormEvent } from "react";
 import { useAuth, useClerk, useUser } from "@clerk/react";
-import { AlertCircle, Code, LoaderCircle, LogOut, Plus, Save, Trash2 } from "lucide-react";
+import { AlertCircle, Code, Eye, Laptop, LoaderCircle, LogOut, Plus, Save, Trash2 } from "lucide-react";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
+import rehypeHighlight from "rehype-highlight";
 import {
   createBlogPost,
   createBlogSlug,
@@ -115,6 +118,7 @@ export default function BlogAdminPage() {
   const [editor, setEditor] = useState<EditorState>(createDefaultEditorState);
   const [isDataLoading, setIsDataLoading] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
+  const [isPreview, setIsPreview] = useState(false);
   const [message, setMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
 
@@ -471,6 +475,16 @@ export default function BlogAdminPage() {
                 <div className="flex gap-2">
                   <Button
                     type="button"
+                    variant={isPreview ? "default" : "outline"}
+                    size="xs"
+                    onClick={() => setIsPreview(!isPreview)}
+                    title="Toggle Preview"
+                  >
+                    {isPreview ? <Laptop className="h-3 w-3" /> : <Eye className="h-3 w-3" />}
+                    {isPreview ? "Edit" : "Preview"}
+                  </Button>
+                  <Button
+                    type="button"
                     variant="outline"
                     size="xs"
                     onClick={insertCodeBlock}
@@ -491,14 +505,25 @@ export default function BlogAdminPage() {
                   </Button>
                 </div>
               </div>
-              <textarea
-                required
-                rows={14}
-                value={editor.content}
-                onChange={(event) => setEditor((current) => ({ ...current, content: event.target.value }))}
-                className="rounded-md border border-border bg-background px-3 py-2"
-                placeholder="Tulis isi artikel di sini. Gunakan Markdown atau tombol di atas."
-              />
+              {isPreview ? (
+                <div className="min-h-[354px] rounded-md border border-border bg-background/50 px-4 py-3 prose max-w-none overflow-y-auto">
+                  <ReactMarkdown
+                    remarkPlugins={[remarkGfm]}
+                    rehypePlugins={[rehypeHighlight]}
+                  >
+                    {editor.content || "*Konten kosong (preview mode)*"}
+                  </ReactMarkdown>
+                </div>
+              ) : (
+                <textarea
+                  required
+                  rows={14}
+                  value={editor.content}
+                  onChange={(event) => setEditor((current) => ({ ...current, content: event.target.value }))}
+                  className="rounded-md border border-border bg-background px-3 py-2 font-mono text-sm leading-relaxed"
+                  placeholder="Tulis isi artikel di sini. Gunakan Markdown atau tombol di atas."
+                />
+              )}
             </div>
 
             <div className="grid grid-cols-1 gap-4 md:grid-cols-2">

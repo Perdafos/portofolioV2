@@ -10,42 +10,40 @@
   }
 }
 
-.prose, .prose-invert {
-    --tw-prose-body: var(--foreground);
-    --tw-prose-headings: var(--foreground);
+/* Base Prose Styles */
+.prose {
     @apply text-foreground/90 leading-relaxed;
 }
-.prose h1, .prose h2, .prose h3, .prose h4,
-.prose-invert h1, .prose-invert h2, .prose-invert h3, .prose-invert h4 {
-    @apply text-foreground font-bold mt-10 mb-5 uppercase tracking-wider;
+.prose h1, .prose h2, .prose h3, .prose h4 {
+    @apply text-foreground font-bold mt-8 mb-4 uppercase tracking-wider;
 }
-.prose h1, .prose-invert h1 { @apply text-3xl; }
-.prose h2, .prose-invert h2 { @apply text-2xl border-b border-primary/10 pb-2; }
-.prose h3, .prose-invert h3 { @apply text-xl; }
-.prose p, .prose-invert p { @apply my-5; }
-.prose ul, .prose-invert ul { @apply list-disc list-outside my-5 ml-6 space-y-2; }
-.prose ol, .prose-invert ol { @apply list-decimal list-outside my-5 ml-6 space-y-2; }
-.prose li, .prose-invert li { @apply pl-2; }
-.prose code:not(pre code), .prose-invert code:not(pre code) {
+.prose h1 { @apply text-3xl; }
+.prose h2 { @apply text-2xl border-b border-primary/10 pb-2; }
+.prose h3 { @apply text-xl; }
+.prose p { @apply my-4; }
+.prose ul { @apply list-disc list-outside my-4 ml-6 space-y-2; }
+.prose ol { @apply list-decimal list-outside my-4 ml-6 space-y-2; }
+.prose li { @apply pl-2; }
+.prose code:not(pre code) {
     @apply bg-primary/10 text-primary px-1.5 py-0.5 rounded text-sm font-mono;
 }
-.prose pre, .prose-invert pre {
-    @apply my-8 rounded-xl border border-primary/20 bg-card/50 overflow-hidden shadow-sm;
+.prose pre {
+    @apply my-6 rounded-xl border border-primary/20 bg-card/50 overflow-hidden;
 }
-.prose pre code, .prose-invert pre code {
-    @apply block p-5 text-sm font-mono leading-relaxed overflow-x-auto bg-transparent!;
+.prose pre code {
+    @apply block p-4 text-sm font-mono leading-relaxed overflow-x-auto bg-transparent!;
 }
-.prose blockquote, .prose-invert blockquote {
-    @apply border-l-4 border-primary/30 pl-4 py-1 italic my-8 text-muted-foreground bg-primary/5 rounded-r;
+.prose blockquote {
+    @apply border-l-4 border-primary/30 pl-4 py-1 italic my-6 text-muted-foreground bg-primary/5 rounded-r;
 }
-.prose strong, .prose-invert strong {
+.prose strong {
     @apply font-bold text-foreground;
 }
-.prose a, .prose-invert a {
+.prose a {
     @apply text-primary underline underline-offset-4 hover:opacity-80 transition-opacity;
 }
-.prose hr, .prose-invert hr {
-    @apply my-10 border-primary/10;
+.prose hr {
+    @apply my-8 border-primary/10;
 }
 
 @custom-variant dark (&:is(.dark *));
