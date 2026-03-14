@@ -97,13 +97,13 @@ export default function SetupSection() {
 
     return (
         <section className="w-full flex flex-col">
-            <div className="w-full flex flex-wrap justify-between items-center gap-3">
-                <h1 className="text-4xl text-primary">My Setup</h1>
+            <div className="w-full flex flex-wrap justify-between items-end gap-3">
+                <div className="flex flex-col gap-2">
+                    <p className="text-sm uppercase tracking-[0.3em] text-primary/90">Setup</p>
+                    <h2 className="text-4xl font-bold text-primary">My Workspace</h2>
+                </div>
             </div>
             <hr className="my-4 w-1/4" />
-            <p className="text-muted-foreground text-lg mb-8 max-w-2xl">
-                The gear I use every day for coding, design, and productivity.
-            </p>
             {hasError && !isLoading ? (
                 <p className="text-sm text-destructive mb-4">
                     {errorMessage}

@@ -4,7 +4,12 @@ import { Card } from "@/components/ui/card";
 export default function SkillsSection() {
   return (
     <section className="w-full flex-col flex">
-      <h1 className="w-full justify-start items-center text-4xl text-primary">Skills Section</h1>
+      <div className="w-full flex flex-wrap justify-between items-end gap-3">
+        <div className="flex flex-col gap-2">
+          <p className="text-sm uppercase tracking-[0.3em] text-primary/90">Skills</p>
+          <h2 className="text-4xl font-bold text-primary">My Tech Skills</h2>
+        </div>
+      </div>
       <hr className="my-4 w-1/4" />
       <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6 w-full">
         <Card className="py-6 px-4 flex flex-col gap-4 w-full">

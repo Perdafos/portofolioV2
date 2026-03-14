@@ -72,10 +72,6 @@ export default function BlogSection() {
 
       <hr className="my-4 w-1/4" />
 
-      <p className="text-muted-foreground text-lg mb-8 max-w-2xl">
-        Catatan teknis tentang performa backend, React, dan ekosistem tooling yang saya pakai sehari-hari.
-      </p>
-
       {errorMessage ? (
         <p className="mb-4 text-sm text-destructive">{errorMessage}</p>
       ) : null}

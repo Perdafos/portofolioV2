@@ -4,7 +4,7 @@ export default function AboutSection() {
   return (
     <section className="text-muted-foreground flex flex-col md:flex-row w-full mx-auto justify-between items-center gap-8">
       <div className="flex-col w-full">
-                <div className="w-full flex flex-wrap justify-between items-end gap-3">
+        <div className="w-full flex flex-wrap justify-between items-end gap-3">
           <div className="flex flex-col gap-2">
             <p className="text-sm uppercase tracking-[0.3em] text-primary/90">About Me</p>
             <h2 className="text-4xl font-bold text-primary">My Journey</h2>

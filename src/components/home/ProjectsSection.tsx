@@ -8,8 +8,11 @@ interface ProjectsSectionProps {
 export default function ProjectsSection({ githubUsername }: ProjectsSectionProps) {
   return (
     <section className="w-full flex-col flex">
-      <div className="flex text-start gap-4 mt-6">
-        <h2 className="text-4xl">Projects</h2>
+      <div className="w-full flex flex-wrap justify-between items-end gap-3">
+        <div className="flex flex-col gap-2">
+          <p className="text-sm uppercase tracking-[0.3em] text-primary/90">Projects</p>
+          <h2 className="text-4xl font-bold text-primary">My Work</h2>
+        </div>
       </div>
       <hr className="my-4 w-1/4" />
       <GitHubFavoriteProjects username={githubUsername} />
