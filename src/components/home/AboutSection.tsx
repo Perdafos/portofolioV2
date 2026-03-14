@@ -1,3 +1,5 @@
+import dafaImage from "@/assets/images/dafa.jpeg";
+
 export default function AboutSection() {
   return (
     <section className="text-muted-foreground flex flex-col md:flex-row w-full max-w-6xl mx-auto px-6 justify-between items-center gap-8">
@@ -10,7 +12,7 @@ export default function AboutSection() {
       </div>
       <div className="w-full flex justify-center items-center">
         <img
-          src="/src/assets/images/dafa.jpeg"
+          src={dafaImage}
           alt="Dafa Ghaitsa"
           className="h-64 md:h-98 rounded-sm grayscale hover:grayscale-0 transition-all duration-300 cursor-pointer"
         />

@@ -1,12 +1,13 @@
 import { Sparkles } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import dafaImage from "@/assets/images/dafa.jpeg";
 
 export default function HeroSection() {
   return (
     <section className="flex min-h-[calc(100dvh-7rem)] md:min-h-[calc(100dvh-8rem)] flex-col justify-center items-center w-full mx-auto px-4 md:px-6">
       <div className="w-30 h-30">
-        <img src="src\assets\images\dafa.jpeg" className="w-full h-full  object-fit rounded-full" alt="Dafa Ghaitsa" />
+        <img src={dafaImage} className="w-full h-full  object-fit rounded-full" alt="Dafa Ghaitsa" />
       </div>
       <Badge variant="outline" className="text-sm px-8 py-2 mt-2"><Sparkles className="mr-1" /> Discover More About Me</Badge>
       <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-center mt-6">
