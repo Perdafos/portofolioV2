@@ -243,6 +243,7 @@
 .glow-orb {
   animation: glowPulse var(--orb-duration, 4s) ease-in-out var(--orb-delay, 0s) infinite;
   animation-fill-mode: backwards;
+  will-change: transform, opacity;
 }
 
 .brand-glitch {

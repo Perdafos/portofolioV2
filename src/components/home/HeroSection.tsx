@@ -6,10 +6,7 @@ import { motion } from "motion/react";
 
 export default function HeroSection() {
   return (
-    <motion.section
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.8, ease: "easeOut" }}
+    <section
       className="flex min-h-[calc(100dvh-7rem)] md:min-h-[calc(100dvh-8rem)] flex-col justify-center items-center w-full mx-auto px-4 md:px-6"
     >
       <a href="#about" className="flex flex-col justify-center items-center gap-4">
@@ -51,6 +48,6 @@ export default function HeroSection() {
           </Button>
         </a>
       </div>
-    </motion.section>
+    </section>
   );
 }

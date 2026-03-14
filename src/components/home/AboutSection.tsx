@@ -23,13 +23,14 @@ export default function AboutSection() {
         </p>
       </div>
       <div className="w-full flex justify-center items-center">
-        <div className="relative h-64 md:h-98 aspect-square overflow-hidden rounded-sm">
+        <div className="relative h-64 md:h-98 aspect-square overflow-hidden rounded-sm bg-muted">
           <img
             src={dafaImage}
             alt="Dafa Ghaitsa"
             width={392}
             height={392}
             loading="lazy"
+            decoding="async"
             className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-300 cursor-pointer"
           />
         </div>

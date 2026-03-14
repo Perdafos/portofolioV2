@@ -111,7 +111,7 @@ export default function PublicLayoutHeader({
   );
 
   return (
-    <header className="fixed top-4 left-1/2 z-50 w-[calc(100%-1rem)] max-w-5xl -translate-x-1/2 rounded-md border border-border bg-background/50 px-3 py-3 backdrop-blur-md sm:top-5 sm:w-[calc(100%-2rem)] sm:px-4 md:px-6 md:py-4">
+    <header className="fixed top-4 left-1/2 z-[40] w-[calc(100%-1rem)] max-w-5xl -translate-x-1/2 rounded-md border border-border bg-background/50 px-3 py-3 backdrop-blur-md sm:top-5 sm:w-[calc(100%-2rem)] sm:px-4 md:px-6 md:py-4">
       <div className="relative flex w-full items-center gap-2 sm:gap-3">
         <h1 className="shrink-0 cursor-pointer text-xl font-bold text-foreground sm:text-2xl">
           <span className="brand-glitch" data-text-hover="Dafa Ghaitsa Yogatama" aria-label="Perdafos">
