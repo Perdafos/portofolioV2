@@ -26,6 +26,9 @@ export default function AboutSection() {
         <img
           src={dafaImage}
           alt="Dafa Ghaitsa"
+          width={392}
+          height={392}
+          loading="lazy"
           className="h-64 md:h-98 rounded-sm grayscale hover:grayscale-0 transition-all duration-300 cursor-pointer"
         />
       </div>

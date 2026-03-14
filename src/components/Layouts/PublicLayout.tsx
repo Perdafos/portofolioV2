@@ -18,9 +18,10 @@ export default function PublicLayout({ children }: PublicLayoutProps) {
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
+        // loading minimal dikurangi agar FCP lebih cepat
         const timer = setTimeout(() => {
             setIsLoading(false);
-        }, 1500);
+        }, 800);
 
         return () => clearTimeout(timer);
     }, []);

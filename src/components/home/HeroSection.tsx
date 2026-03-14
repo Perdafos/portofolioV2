@@ -14,7 +14,15 @@ export default function HeroSection() {
     >
       <a href="#about" className="flex flex-col justify-center items-center gap-4">
         <div className="w-30 h-30">
-          <img src={dafaImage} className="w-full h-full object-fit rounded-full" alt="Dafa Ghaitsa" />
+          <img 
+            src={dafaImage} 
+            className="w-full h-full object-fit rounded-full" 
+            alt="Dafa Ghaitsa" 
+            width={120} 
+            height={120}
+            loading="eager"
+            fetchPriority="high"
+          />
         </div>
         <Badge variant="outline" className="text-sm px-8 py-2"><Sparkles className="mr-1" /> Discover More About Me</Badge>
       </a>

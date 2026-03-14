@@ -106,6 +106,8 @@ export default function BlogSection() {
                     <img
                       src={post.coverImageUrl}
                       alt={post.title}
+                      width={400}
+                      height={208}
                       className="h-52 w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
                       loading="lazy"
                     />
