@@ -198,6 +198,25 @@ export async function getAdminBlogPosts(accessToken: string): Promise<BlogPostAd
   return rows.map(mapAdminItem);
 }
 
+export async function searchBlogPosts(query: string, limit = 5): Promise<BlogPostPreview[]> {
+  const client = getSupabaseClient();
+
+  const { data, error } = await client
+    .from("blog_posts")
+    .select(BLOG_COLUMNS)
+    .eq("is_published", true)
+    .ilike("title", `%${query}%`)
+    .order("published_at", { ascending: false })
+    .limit(limit);
+
+  if (error) {
+    throw error;
+  }
+
+  const rows = (data ?? []) as BlogPostRow[];
+  return rows.map(mapPreview);
+}
+
 export async function createBlogPost(
   input: BlogPostUpsertInput,
   accessToken: string
