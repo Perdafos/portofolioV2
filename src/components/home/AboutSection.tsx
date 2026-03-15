@@ -1,4 +1,4 @@
-import dafaImage from "@/assets/images/dafa.webp";
+const dafaImage = "/images/dafa.webp";
 import { motion } from "motion/react";
 
 export default function AboutSection() {

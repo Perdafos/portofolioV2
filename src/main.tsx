@@ -9,8 +9,8 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./index.css";
 import LoadingScreen from "./components/Layouts/LoadingScreen.tsx";
 import { ThemeProvider } from "./components/theme-provider";
+import App from "./pages/App.tsx";
 
-const App = lazy(() => import("./pages/App.tsx"));
 const BlogPage = lazy(() => import("./pages/BlogPage.tsx"));
 const BlogPostPage = lazy(() => import("./pages/BlogPostPage.tsx"));
 const BlogAdminPage = lazy(() => import("./pages/BlogAdminPage.tsx"));

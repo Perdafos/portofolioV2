@@ -5,16 +5,12 @@ const LoadingScreen: React.FC = () => {
   const [isVisible, setIsVisible] = useState(true);
 
   useEffect(() => {
-    const handleLoad = () => {
+    // Agar LCP cepat muncul, hilangkan layar segera setelah halaman merender, maksimal 200ms
+    const timer = setTimeout(() => {
       setIsVisible(false);
-    };
+    }, 200);
 
-    if (document.readyState === "complete") {
-      handleLoad();
-    } else {
-      window.addEventListener("load", handleLoad);
-      return () => window.removeEventListener("load", handleLoad);
-    }
+    return () => clearTimeout(timer);
   }, []);
 
   return (
