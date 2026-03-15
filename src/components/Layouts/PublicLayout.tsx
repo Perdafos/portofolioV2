@@ -3,6 +3,7 @@ import ClickSpark from "../ClickSpark";
 import LoadingScreen from "./LoadingScreen";
 import PublicLayoutHeader from "./PublicLayoutHeader";
 import PublicFooter from "./PublicFooter";
+import { Bot } from "lucide-react";
 
 const ORB_COLOR = '#3b82f6';
 
@@ -73,6 +74,20 @@ export default function PublicLayout({ children }: PublicLayoutProps) {
                 </main>
 
                 <PublicFooter />
+
+                {/* Floating AI Button */}
+                <a
+                    href="https://ai.perdafos.my.id"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="fixed bottom-6 right-6 z-99 p-4 bg-linear-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-600 animate-pulse-glow text-white rounded-full shadow-lg hover:shadow-blue-500/50 transition-all duration-300 hover:scale-110 active:scale-95 flex items-center justify-center group"
+                    title="Visit AI Perdafos"
+                >
+                    <Bot className="w-6 h-6" />
+                    <span className="max-w-0 overflow-hidden group-hover:max-w-xs group-hover:ml-2 transition-all duration-500 ease-in-out whitespace-nowrap text-sm font-medium">
+                        Ask AI
+                    </span>
+                </a>
             </div>
         </ClickSpark>
     </>
