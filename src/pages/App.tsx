@@ -2,6 +2,7 @@ import { lazy, Suspense } from "react";
 import PublicLayout from "@/components/Layouts/PublicLayout";
 import HeroSection from "@/components/home/HeroSection";
 import { Skeleton } from "@/components/ui/skeleton";
+import { SpeedInsights } from "@vercel/speed-insights/next"
 
 const AboutSection = lazy(() => import("@/components/home/AboutSection"));
 const ContactSection = lazy(() => import("@/components/home/ContactSection"));
@@ -25,6 +26,7 @@ export default function App() {
 
   return (
     <PublicLayout>
+      <SpeedInsights />
       <div className="w-full flex flex-col gap-20 md:gap-32">
         <HeroSection />
         
