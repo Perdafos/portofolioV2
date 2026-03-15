@@ -2,7 +2,7 @@ import { lazy, Suspense } from "react";
 import PublicLayout from "@/components/Layouts/PublicLayout";
 import HeroSection from "@/components/home/HeroSection";
 import { Skeleton } from "@/components/ui/skeleton";
-import { SpeedInsights } from "@vercel/speed-insights/next"
+import { SpeedInsights } from "@vercel/speed-insights/react"
 
 const AboutSection = lazy(() => import("@/components/home/AboutSection"));
 const ContactSection = lazy(() => import("@/components/home/ContactSection"));
