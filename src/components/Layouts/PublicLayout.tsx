@@ -1,9 +1,9 @@
 import { useMemo, type ReactNode } from "react";
-import ClickSpark from "../ClickSpark";
 import LoadingScreen from "./LoadingScreen";
 import PublicLayoutHeader from "./PublicLayoutHeader";
 import PublicFooter from "./PublicFooter";
 import { Bot } from "lucide-react";
+import Threads from "../Threads";
 
 const ORB_COLOR = '#3b82f6';
 
@@ -17,7 +17,7 @@ export default function PublicLayout({ children }: PublicLayoutProps) {
     const glowOrbs = useMemo(() => {
         // Disabled on mobile for performance (Total Blocking Time)
         if (isMobile) return [];
-        
+
         const count = 4;
         return Array.from({ length: count }, (_, i) => ({
             id: i,
@@ -33,14 +33,17 @@ export default function PublicLayout({ children }: PublicLayoutProps) {
     return (
         <>
             <LoadingScreen />
-            <ClickSpark
-                sparkColor='#fff'
-                sparkSize={10}
-                sparkRadius={15}
-                sparkCount={isMobile ? 0 : 8}
-                duration={400}
-            >
-                <div className="min-h-dvh w-full flex flex-col bg-background relative overflow-x-hidden">
+            <div className="min-h-dvh w-full flex flex-col bg-background/20 dark:bg-background/80 relative overflow-x-hidden transition-colors duration-300">
+                <div className="fixed inset-0 pointer-events-none z-[-1] h-screen bg-background">
+                    {!isMobile && (
+                        <Threads
+                            amplitude={1}
+                            distance={0}
+                            enableMouseInteraction={true}
+                            color={[0.2, 0.4, 1.0]} // Warna biru (RGB format, 0 to 1)
+                        />
+                    )}
+                </div>
                 <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
                     {glowOrbs.map(orb => (
                         <div
@@ -64,7 +67,7 @@ export default function PublicLayout({ children }: PublicLayoutProps) {
                     className="absolute -top-50 -right-50 w-125 h-125 bg-blue-500 rounded-full blur-[180px] opacity-50 z-0 pointer-events-none"
                     style={{ pointerEvents: 'none' }}
                 />
-                
+
                 <PublicLayoutHeader />
 
                 <main
@@ -89,7 +92,6 @@ export default function PublicLayout({ children }: PublicLayoutProps) {
                     </span>
                 </a>
             </div>
-        </ClickSpark>
-    </>
+        </>
     )
 }
