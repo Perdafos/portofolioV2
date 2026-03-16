@@ -16,6 +16,7 @@ import type { BlogPostAdminItem, BlogPostUpsertInput } from "@/backend/types/blo
 import { supabase, supabaseConfigError } from "@/backend/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import ImageUploader from "@/components/admin/ImageUploader";
 
 interface EditorState {
   title: string;
@@ -516,20 +517,19 @@ export default function BlogAdminPage() {
                 </div>
               </div>
 
-            <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-              <label className="flex flex-col gap-1.5 text-sm">
-                Cover Image URL
-                <input
-                  value={editor.coverImageUrl}
-                  onChange={(event) =>
-                    setEditor((current) => ({ ...current, coverImageUrl: event.target.value }))
-                  }
-                  className="h-10 rounded-md border border-border bg-background px-3"
-                  placeholder="https://..."
-                />
-              </label>
+            <div className="flex flex-col gap-1.5 text-sm w-full mt-4">
+              <span>Cover Image</span>
+              <ImageUploader
+                value={editor.coverImageUrl}
+                onChange={(url) => setEditor((current) => ({ ...current, coverImageUrl: url }))}
+                getSupabaseAccessToken={getSupabaseAccessToken}
+                bucketName="blog-images" 
+                folderPath="covers"
+              />
+            </div>
 
-              <label className="flex flex-col gap-1.5 text-sm">
+            <div className="grid grid-cols-1 gap-4 md:grid-cols-2 mt-4">
+              <label className="flex flex-col gap-1.5 text-sm md:col-span-2">
                 Tags
                 <input
                   value={editor.tags}
