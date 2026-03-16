@@ -1,8 +1,11 @@
 import { Brain, Database, Dot, Wallpaper, Wrench } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { motion } from "motion/react";
+import { useTranslation } from "react-i18next";
 
 export default function SkillsSection() {
+  const { t } = useTranslation();
+
   return (
     <motion.section
       initial={{ opacity: 0, y: 20 }}
@@ -13,8 +16,8 @@ export default function SkillsSection() {
     >
       <div className="w-full flex flex-wrap justify-between items-end gap-3">
         <div className="flex flex-col gap-2">
-          <p className="text-sm uppercase tracking-[0.3em] text-primary/90">Skills</p>
-          <h2 className="text-4xl font-bold text-primary">My Tech Skills</h2>
+          <p className="text-sm uppercase tracking-[0.3em] text-primary/90">{t("skills.title")}</p>
+          <h2 className="text-4xl font-bold text-primary">{t("skills.techSkills")}</h2>
         </div>
       </div>
       <hr className="my-4 w-1/4" />
@@ -23,7 +26,7 @@ export default function SkillsSection() {
           <div className="bg-foreground rounded-full p-2 w-fit h-fit ">
             <Wallpaper className="size-8 text-background" />
           </div>
-          <h2 className="text-2xl font-bold">FrontEnd</h2>
+          <h2 className="text-2xl font-bold">{t("skills.frontend")}</h2>
           <div className="flex flex-col ">
             <p className="text-xl flex justify-start items-center"><Dot />{" "}React</p>
             <p className="text-xl flex justify-start items-center"><Dot />{" "}Next.Js</p>

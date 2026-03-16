@@ -1,7 +1,10 @@
 const dafaImage = "/images/dafa.webp";
 import { motion } from "motion/react";
+import { useTranslation } from "react-i18next";
 
 export default function AboutSection() {
+  const { t } = useTranslation();
+
   return (
     <motion.section
       initial={{ opacity: 0, y: 20 }}
@@ -13,13 +16,13 @@ export default function AboutSection() {
       <div id="about" className="flex-col w-full">
         <div className="w-full flex flex-wrap justify-between items-end gap-3">
           <div className="flex flex-col gap-2">
-            <p className="text-sm uppercase tracking-[0.3em] text-primary/90">About Me</p>
-            <h2 className="text-4xl font-bold text-primary">My Journey</h2>
+            <p className="text-sm uppercase tracking-[0.3em] text-primary/90">{t("about.title")}</p>
+            <h2 className="text-4xl font-bold text-primary">{t("about.journey")}</h2>
           </div>
         </div>
         <hr className="my-4 w-1/2" />
         <p className="w-full text-lg md:text-2xl">
-          Hello my name is Dafa Ghaitsa, I am a website developer with a passion for creating beautiful and functional websites. I have experience in both frontend and backend development, and I am always looking for new challenges to improve my skills. This website is a showcase of my work and a place where I share my thoughts on web development and design.
+          {t("about.content")}
         </p>
       </div>
       <div className="w-full flex justify-center items-center">

@@ -1,9 +1,12 @@
-import { useMemo, type ReactNode } from "react";
+import { useMemo, type ReactNode, useEffect } from "react";
+import { useTranslation } from "react-i18next";
+import { motion, useAnimation } from "motion/react";
 import LoadingScreen from "./LoadingScreen";
 import PublicLayoutHeader from "./PublicLayoutHeader";
 import PublicFooter from "./PublicFooter";
 import { Bot } from "lucide-react";
 import Threads from "../Threads";
+import { LanguageSwitcher } from "../LanguageSwitcher";
 
 const ORB_COLOR = '#3b82f6';
 
@@ -12,7 +15,18 @@ interface PublicLayoutProps {
 }
 
 export default function PublicLayout({ children }: PublicLayoutProps) {
+    const { i18n } = useTranslation();
     const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
+    const controls = useAnimation();
+
+    useEffect(() => {
+        controls.start({
+            opacity: [0, 1],
+            y: [10, 0],
+            filter: ["blur(5px)", "blur(0px)"],
+            transition: { duration: 0.5, ease: "easeOut" }
+        });
+    }, [i18n.language, controls]);
 
     const glowOrbs = useMemo(() => {
         // Disabled on mobile for performance (Total Blocking Time)
@@ -70,11 +84,12 @@ export default function PublicLayout({ children }: PublicLayoutProps) {
 
                 <PublicLayoutHeader />
 
-                <main
+                <motion.main
+                    animate={controls}
                     className="z-10 mx-auto flex w-full max-w-7xl flex-1 flex-col items-center justify-start px-4 pt-24 pb-24 sm:px-6 md:pt-28 md:pb-0"
                 >
                     {children}
-                </main>
+                </motion.main>
 
                 <PublicFooter />
 
@@ -91,6 +106,9 @@ export default function PublicLayout({ children }: PublicLayoutProps) {
                         Ask AI
                     </span>
                 </a>
+
+                {/* Language Switcher */}
+                <LanguageSwitcher />
             </div>
         </>
     )

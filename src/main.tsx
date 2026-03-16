@@ -7,6 +7,7 @@ import {
 } from "@clerk/react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./index.css";
+import "./i18n";
 import LoadingScreen from "./components/Layouts/LoadingScreen.tsx";
 import { ThemeProvider } from "./components/theme-provider";
 import App from "./pages/App.tsx";

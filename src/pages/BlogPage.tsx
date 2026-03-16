@@ -6,14 +6,16 @@ import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
 import { getPublishedBlogPosts } from "@/backend/services/blogService";
 import type { BlogPostPreview } from "@/backend/types/blog";
+import { useTranslation } from "react-i18next";
+import { translateText } from "@/lib/translator";
 
-function formatDate(dateValue: string | null): string {
+function formatDate(dateValue: string | null, locale: string, draftText: string): string {
   if (!dateValue) {
-    return "Draft";
+    return draftText;
   }
 
   const date = new Date(dateValue);
-  return new Intl.DateTimeFormat("id-ID", {
+  return new Intl.DateTimeFormat(locale === "id" ? "id-ID" : "en-US", {
     day: "2-digit",
     month: "long",
     year: "numeric",
@@ -22,8 +24,10 @@ function formatDate(dateValue: string | null): string {
 
 export default function BlogPage() {
   const [posts, setPosts] = useState<BlogPostPreview[]>([]);
+  const [displayPosts, setDisplayPosts] = useState<BlogPostPreview[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [errorMessage, setErrorMessage] = useState("");
+  const { t, i18n } = useTranslation();
 
   useEffect(() => {
     let active = true;
@@ -37,6 +41,7 @@ export default function BlogPage() {
         }
 
         setPosts(data);
+        setDisplayPosts(data);
         setErrorMessage("");
       } catch (error) {
         if (!active) {
@@ -46,7 +51,7 @@ export default function BlogPage() {
         if (error instanceof Error) {
           setErrorMessage(error.message);
         } else {
-          setErrorMessage("Gagal memuat daftar blog.");
+          setErrorMessage(t("blog.errorLoadList"));
         }
       } finally {
         if (active) {
@@ -60,18 +65,40 @@ export default function BlogPage() {
     return () => {
       active = false;
     };
-  }, []);
+  }, [t]);
+
+  useEffect(() => {
+    let active = true;
+    const translatePosts = async () => {
+      if (!posts.length) return;
+      const targetLang = i18n.language;
+      const translated = await Promise.all(
+        posts.map(async (p) => ({
+          ...p,
+          title: await translateText(p.title, targetLang),
+          excerpt: p.excerpt ? await translateText(p.excerpt, targetLang) : p.excerpt,
+        }))
+      );
+      if (active) {
+        setDisplayPosts(translated);
+      }
+    };
+    translatePosts();
+    return () => {
+      active = false;
+    };
+  }, [posts, i18n.language]);
 
   return (
     <PublicLayout>
       <section className="w-full flex flex-col">
         <div className="flex flex-col gap-2">
-          <p className="text-sm uppercase tracking-[0.35em] text-primary/80">Journal</p>
-          <h1 className="text-4xl font-bold text-primary md:text-5xl">All Articles</h1>
+          <p className="text-sm uppercase tracking-[0.35em] text-primary/80">{t("blog.journal")}</p>
+          <h1 className="text-4xl font-bold text-primary md:text-5xl">{t("blog.allArticles")}</h1>
         </div>
 
         <p className="mt-5 max-w-2xl text-muted-foreground">
-          Semua artikel yang sudah saya publikasikan. Klik salah satu artikel untuk membaca versi lengkap.
+          {t("blog.allArticlesDesc")}
         </p>
 
         {errorMessage ? <p className="mt-4 text-sm text-destructive">{errorMessage}</p> : null}
@@ -88,7 +115,7 @@ export default function BlogPage() {
                   </div>
                 </Card>
               ))
-            : posts.map((post) => (
+            : displayPosts.map((post) => (
                 <Card
                   key={post.id}
                   className="group overflow-hidden border-primary/20 bg-card/65 transition-all duration-300 hover:-translate-y-1 hover:border-primary/50"
@@ -126,17 +153,17 @@ export default function BlogPage() {
                         <div className="flex items-center gap-4">
                           <span className="inline-flex items-center gap-1.5">
                             <CalendarDays className="h-3.5 w-3.5" />
-                            {formatDate(post.publishedAt)}
+                            {formatDate(post.publishedAt, i18n.language, t("blog.draft"))}
                           </span>
                           <span className="inline-flex items-center gap-1.5 font-medium">
                             <Clock3 className="h-3.5 w-3.5" />
-                            {post.readingMinutes ?? 1} min read
+                            {post.readingMinutes ?? 1} {t("blog.minRead")}
                           </span>
                         </div>
                       </div>
 
                       <div className="mt-5 inline-flex items-center gap-2 text-sm font-bold text-primary/90 hover:text-primary transition-colors group/link">
-                        Read Article
+                        {t("blog.readArticle")}
                         <ArrowRight className="h-4 w-4 transition-transform group-hover/link:translate-x-1" />
                       </div>
                     </div>
@@ -146,7 +173,7 @@ export default function BlogPage() {
         </div>
 
         {!isLoading && posts.length === 0 ? (
-          <p className="mt-6 text-sm text-muted-foreground">Belum ada artikel yang dipublikasikan.</p>
+          <p className="mt-6 text-sm text-muted-foreground">{t("blog.noArticles")}</p>
         ) : null}
       </section>
     </PublicLayout>

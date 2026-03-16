@@ -7,18 +7,25 @@ import { motion, AnimatePresence } from "motion/react";
 import { searchBlogPosts } from "@/backend/services/blogService";
 import { type BlogPostPreview } from "@/backend/types/blog";
 import { cn } from "@/lib/utils";
+import { useTranslation } from "react-i18next";
 
 type NavLink = { to: string; label: string };
 
 export default function PublicLayoutHeader({
-  navLinks = [
-    { to: "/", label: "Home" },
-    { to: "/blog", label: "Blog" },
-  ],
+  navLinks,
 }: {
   navLinks?: NavLink[];
 }) {
   const { theme, setTheme } = useTheme();
+  const { t } = useTranslation();
+  
+  const defaultNavLinks = [
+    { to: "/", label: t("nav.home") },
+    { to: "/blog", label: t("nav.blog") },
+  ];
+  
+  const activeNavLinks = navLinks || defaultNavLinks;
+
   const navigate = useNavigate();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
@@ -121,7 +128,7 @@ export default function PublicLayoutHeader({
         </h1>
 
         <nav className="absolute left-1/2 hidden -translate-x-1/2 items-center justify-center gap-6 font-bold text-foreground lg:flex">
-          {navLinks.map((item) => (
+          {activeNavLinks.map((item) => (
             <Link key={item.to} className="text-foreground transition-colors hover:text-primary" to={item.to}>
               {item.label}
             </Link>
@@ -215,7 +222,7 @@ export default function PublicLayoutHeader({
                 </AnimatePresence>
               </div>
               <nav className="flex flex-col gap-2 font-bold text-foreground">
-                {navLinks.map((item) => (
+                {activeNavLinks.map((item) => (
                   <Link key={item.to} className="rounded-md px-2 py-1.5 text-foreground transition-colors hover:text-primary" to={item.to} onClick={() => setIsMobileMenuOpen(false)}>
                     {item.label}
                   </Link>
