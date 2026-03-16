@@ -1,12 +1,12 @@
-import { useMemo, type ReactNode, useEffect } from "react";
+import { useMemo, type ReactNode, useEffect, lazy, Suspense } from "react";
 import { useTranslation } from "react-i18next";
 import { motion, useAnimation } from "motion/react";
-import LoadingScreen from "./LoadingScreen";
 import PublicLayoutHeader from "./PublicLayoutHeader";
 import PublicFooter from "./PublicFooter";
 import { Bot } from "lucide-react";
-import Threads from "../Threads";
 import { LanguageSwitcher } from "../LanguageSwitcher";
+
+const Threads = lazy(() => import("../Threads"));
 
 const ORB_COLOR = '#3b82f6';
 
@@ -46,16 +46,17 @@ export default function PublicLayout({ children }: PublicLayoutProps) {
 
     return (
         <>
-            <LoadingScreen />
             <div className="min-h-dvh w-full flex flex-col bg-background/20 dark:bg-background/80 relative overflow-x-hidden transition-colors duration-300">
                 <div className="fixed inset-0 pointer-events-none z-[-1] h-screen bg-background">
                     {!isMobile && (
-                        <Threads
-                            amplitude={1}
-                            distance={0}
-                            enableMouseInteraction={true}
-                            color={[0.2, 0.4, 1.0]} // Warna biru (RGB format, 0 to 1)
-                        />
+                        <Suspense fallback={null}>
+                            <Threads
+                                amplitude={1}
+                                distance={0}
+                                enableMouseInteraction={true}
+                                color={[0.2, 0.4, 1.0]} // Warna biru (RGB format, 0 to 1)
+                            />
+                        </Suspense>
                     )}
                 </div>
                 <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">

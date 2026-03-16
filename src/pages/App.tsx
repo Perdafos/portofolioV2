@@ -2,7 +2,8 @@ import { lazy, Suspense } from "react";
 import PublicLayout from "@/components/Layouts/PublicLayout";
 import HeroSection from "@/components/home/HeroSection";
 import { Skeleton } from "@/components/ui/skeleton";
-import { SpeedInsights } from "@vercel/speed-insights/react"
+
+const SpeedInsights = lazy(() => import("@vercel/speed-insights/react").then(module => ({ default: module.SpeedInsights })));
 
 const AboutSection = lazy(() => import("@/components/home/AboutSection"));
 const ContactSection = lazy(() => import("@/components/home/ContactSection"));
@@ -26,7 +27,9 @@ export default function App() {
 
   return (
     <PublicLayout>
-      <SpeedInsights />
+      <Suspense fallback={null}>
+        <SpeedInsights />
+      </Suspense>
       <div className="w-full flex flex-col gap-20 md:gap-32">
         <HeroSection />
         

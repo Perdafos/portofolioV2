@@ -57,6 +57,32 @@
     />
 
     <!-- Meta Tags Generated with https://metatags.io -->
+    <style>
+      #root:empty {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background-color: #09090b;
+      }
+      .root-spinner {
+        width: 40px;
+        height: 40px;
+        border: 3px solid rgba(255, 255, 255, 0.1);
+        border-top-color: #3b82f6;
+        border-radius: 50%;
+        animation: root-spin 1s linear infinite;
+        display: none;
+      }
+      #root:empty .root-spinner {
+        display: block;
+      }
+      @keyframes root-spin { to { transform: rotate(360deg); } }
+      @media (prefers-color-scheme: light) {
+        #root:empty { background-color: #ffffff; }
+        .root-spinner { border-top-color: #2563eb; border-color: rgba(0, 0, 0, 0.1); }
+      }
+    </style>
   </head>
   <body>
     <div id="root"></div>

@@ -1,10 +1,5 @@
 import { StrictMode, lazy, Suspense } from "react";
 import { createRoot } from "react-dom/client";
-import {
-  ClerkProvider,
-  RedirectToSignIn,
-  Show,
-} from "@clerk/react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./index.css";
 import "./i18n";
@@ -14,7 +9,7 @@ import App from "./pages/App.tsx";
 
 const BlogPage = lazy(() => import("./pages/BlogPage.tsx"));
 const BlogPostPage = lazy(() => import("./pages/BlogPostPage.tsx"));
-const BlogAdminPage = lazy(() => import("./pages/BlogAdminPage.tsx"));
+const ProtectedAdminRoute = lazy(() => import("./components/admin/ProtectedAdminRoute.tsx"));
 
 const clerkPublishableKey = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
 const isClerkConfigured = Boolean(clerkPublishableKey);
@@ -22,19 +17,6 @@ const isClerkConfigured = Boolean(clerkPublishableKey);
 const adminPathSegment =
   import.meta.env.VITE_BLOG_ADMIN_PATH?.replace(/^\/+|\/+$/g, "") ?? "";
 const adminRoutePath = adminPathSegment ? `/${adminPathSegment}` : null;
-
-function ProtectedAdminRoute() {
-  return (
-    <>
-      <Show when="signed-in">
-        <BlogAdminPage />
-      </Show>
-      <Show when="signed-out">
-        <RedirectToSignIn />
-      </Show>
-    </>
-  );
-}
 
 const appRoutes = (
   <ThemeProvider defaultTheme="dark" storageKey="portofolio-theme">
@@ -55,10 +37,6 @@ const appRoutes = (
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    {isClerkConfigured ? (
-      <ClerkProvider publishableKey={clerkPublishableKey!}>{appRoutes}</ClerkProvider>
-    ) : (
-      appRoutes
-    )}
+    {appRoutes}
   </StrictMode>
 );
