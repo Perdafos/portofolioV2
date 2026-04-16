@@ -44,6 +44,15 @@
 .prose hr {
     @apply my-10 border-primary/10 block;
 }
+.prose table {
+    @apply w-full mb-8 mt-4 text-left border-collapse border border-border/50 block overflow-x-auto whitespace-nowrap;
+}
+.prose th {
+    @apply border border-border/50 px-4 py-3 bg-muted/50 font-semibold;
+}
+.prose td {
+    @apply border border-border/50 px-4 py-3 relative;
+}
 
 @custom-variant dark (&:is(.dark *));
 

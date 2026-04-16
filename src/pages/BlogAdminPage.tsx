@@ -5,6 +5,9 @@ import { AlertCircle, Code, LoaderCircle, LogOut, Plus, Save, Trash2 } from "luc
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import rehypeHighlight from "rehype-highlight";
+import remarkMath from "remark-math";
+import rehypeKatex from "rehype-katex";
+import "katex/dist/katex.min.css"; // Import katex styles for admin preview
 import {
   createBlogPost,
   createBlogSlug,
@@ -506,10 +509,10 @@ export default function BlogAdminPage() {
                     placeholder="Tulis artikel di sini..."
                   />
                   
-                  <div className="rounded-md border border-border bg-card/30 px-6 py-4 prose max-w-none overflow-y-auto antialiased min-h-[500px] max-h-[700px]">
+                  <div className="rounded-md border border-border bg-card/30 px-6 py-4 prose max-w-none overflow-y-auto antialiased min-h-[500px] max-h-[700px] prose-a:text-primary prose-a:underline hover:prose-a:text-primary/80 prose-code:text-primary prose-code:bg-primary/10 prose-code:px-1 prose-code:py-0.5 prose-code:rounded prose-pre:bg-muted prose-pre:text-muted-foreground prose-table:border-collapse prose-th:border prose-th:border-border prose-th:p-2 prose-th:bg-muted/50 prose-td:border prose-td:border-border prose-td:p-2">
                     <ReactMarkdown
-                      remarkPlugins={[remarkGfm]}
-                      rehypePlugins={[rehypeHighlight]}
+                      remarkPlugins={[remarkGfm, remarkMath]}
+                      rehypePlugins={[rehypeHighlight, rehypeKatex]}
                     >
                       {editor.content || "*Preview kosong*"}
                     </ReactMarkdown>

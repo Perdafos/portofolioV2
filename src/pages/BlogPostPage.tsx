@@ -4,6 +4,9 @@ import { ArrowLeft, CalendarDays, Clock3 } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import rehypeHighlight from "rehype-highlight";
+import remarkMath from "remark-math";
+import rehypeKatex from "rehype-katex";
+import "katex/dist/katex.min.css"; // Import katex styles for math
 import PublicLayout from "@/components/Layouts/PublicLayout";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -164,10 +167,10 @@ export default function BlogPostPage() {
               {displayPost.excerpt}
             </p>
 
-            <div className="mt-12 prose max-w-none">
+            <div className="mt-12 prose max-w-none prose-a:text-primary prose-a:underline hover:prose-a:text-primary/80 prose-code:text-primary prose-code:bg-primary/10 prose-code:px-1 prose-code:py-0.5 prose-code:rounded prose-pre:bg-muted prose-pre:text-muted-foreground prose-table:border-collapse prose-th:border prose-th:border-border prose-th:p-2 prose-th:bg-muted/50 prose-td:border prose-td:border-border prose-td:p-2">
               <ReactMarkdown
-                remarkPlugins={[remarkGfm]}
-                rehypePlugins={[rehypeHighlight]}
+                remarkPlugins={[remarkGfm, remarkMath]}
+                rehypePlugins={[rehypeHighlight, rehypeKatex]}
               >
                 {displayPost.content}
               </ReactMarkdown>
