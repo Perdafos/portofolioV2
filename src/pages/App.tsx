@@ -1,4 +1,5 @@
-import { lazy, Suspense } from "react";
+import { lazy, Suspense, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import PublicLayout from "@/components/Layouts/PublicLayout";
 import HeroSection from "@/components/home/HeroSection";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -25,6 +26,20 @@ const SectionSkeleton = () => (
 
 export default function App() {
   const githubUsername = import.meta.env.VITE_GITHUB_USERNAME ?? "Perdafos";
+  const location = useLocation();
+
+  useEffect(() => {
+    if (location.hash) {
+      const id = location.hash.substring(1);
+      const element = document.getElementById(id);
+      if (element) {
+        const timer = setTimeout(() => {
+          element.scrollIntoView({ behavior: "smooth" });
+        }, 150);
+        return () => clearTimeout(timer);
+      }
+    }
+  }, [location]);
 
   return (
     <PublicLayout>

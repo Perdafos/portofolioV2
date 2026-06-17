@@ -9,6 +9,7 @@ const resources = {
         "about": "About",
         "skills": "Skills",
         "projects": "Projects",
+        "videos": "Videos",
         "setup": "Setup",
         "blog": "Blog",
         "contact": "Contact"
@@ -20,14 +21,14 @@ const resources = {
         "title3": "building a website",
         "title4": "is the same as making",
         "title5": "a painting",
-        "description": "Welcome to my portfolio. This website is designed to showcase my expertise in web development and software engineering. Here, you'll find information about my skills, experience, and projects that demonstrate my passion for creating beautiful, functional, and user-centric digital solutions.",
+        "description": "Welcome to my portfolio. This website is designed to showcase my expertise in web development and video editing. As a web developer and video editor utilizing CapCut, After Effects, and Premiere Pro, I specialize in creating beautiful, functional websites and engaging video content.",
         "viewWork": "View My Work",
         "contactMe": "Contact Me"
       },
       "about": {
         "title": "About Me",
         "journey": "My Journey",
-        "content": "Hello my name is Dafa Ghaitsa, I am a website developer with a passion for creating beautiful and functional websites. I have experience in both frontend and backend development, and I am always looking for new challenges to improve my skills. This website is a showcase of my work and a place where I share my thoughts on web development and design."
+        "content": "Hello, my name is Dafa Ghaitsa. I am a website developer and video editor with a passion for creating beautiful and functional digital experiences. I have experience in frontend, backend, and video editing—specializing in tools like CapCut, After Effects, and Premiere Pro. I am always looking for new challenges to improve my skills and deliver premium results."
       },
       "skills": {
         "title": "Skills",
@@ -86,6 +87,7 @@ const resources = {
         "about": "Tentang",
         "skills": "Keahlian",
         "projects": "Proyek",
+        "videos": "Video",
         "setup": "Setup",
         "blog": "Blog",
         "contact": "Kontak"
@@ -97,14 +99,14 @@ const resources = {
         "title3": "membangun sebuah website",
         "title4": "sama halnya dengan membuat",
         "title5": "sebuah lukisan",
-        "description": "Selamat datang di portofolio saya. Website ini dirancang untuk menunjukkan keahlian saya dalam pengembangan web dan rekayasa perangkat lunak. Di sini, Anda akan menemukan informasi tentang keterampilan, pengalaman, dan proyek saya yang mendemonstrasikan passion saya untuk menciptakan solusi digital yang indah, fungsional, dan berpusat pada pengguna.",
+        "description": "Selamat datang di portofolio saya. Website ini dirancang untuk menunjukkan keahlian saya dalam pengembangan web dan pengeditan video. Sebagai seorang web developer dan video editor yang menggunakan CapCut, After Effects, dan Premiere Pro, saya berfokus menciptakan website yang fungsional serta konten video yang menarik.",
         "viewWork": "Lihat Karya Saya",
         "contactMe": "Hubungi Saya"
       },
       "about": {
         "title": "Tentang Saya",
         "journey": "Perjalanan Saya",
-        "content": "Halo, nama saya Dafa Ghaitsa, saya adalah seorang pengembang website dengan passion untuk menciptakan website yang indah dan fungsional. Saya memiliki pengalaman dalam pengembangan frontend dan backend, dan saya selalu mencari tantangan baru untuk meningkatkan keterampilan saya. Website ini adalah tempat untuk memamerkan karya saya dan tempat di mana saya membagikan pemikiran saya tentang pengembangan dan desain web."
+        "content": "Halo, nama saya Dafa Ghaitsa. Saya adalah seorang pengembang website dan editor video dengan passion untuk menciptakan karya digital yang indah dan fungsional. Saya memiliki pengalaman dalam pengembangan frontend, backend, serta pengeditan video—menggunakan perangkat lunak seperti CapCut, After Effects, dan Premiere Pro. Saya selalu mencari tantangan baru untuk meningkatkan keahlian saya."
       },
       "skills": {
         "title": "Keahlian",

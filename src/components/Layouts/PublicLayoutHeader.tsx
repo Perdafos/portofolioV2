@@ -21,6 +21,7 @@ export default function PublicLayoutHeader({
   
   const defaultNavLinks = [
     { to: "/", label: t("nav.home") },
+    { to: "/#videos", label: t("nav.videos") },
     { to: "/blog", label: t("nav.blog") },
   ];
   
