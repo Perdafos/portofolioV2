@@ -11,6 +11,7 @@ const ProjectsSection = lazy(() => import("@/components/home/ProjectsSection"));
 const BlogSection = lazy(() => import("@/components/home/BlogSection"));
 const SetupSection = lazy(() => import("@/components/home/SetupSection"));
 const SkillsSection = lazy(() => import("@/components/home/SkillsSection"));
+const WorkVideoSection = lazy(() => import("@/components/home/WorkVideoSection"));
 
 const SectionSkeleton = () => (
   <div className="w-full h-96 flex flex-col gap-4 px-4 md:px-6">
@@ -47,6 +48,10 @@ export default function App() {
 
         <Suspense fallback={<SectionSkeleton />}>
           <BlogSection />
+        </Suspense>
+
+        <Suspense fallback={<SectionSkeleton />}>
+          <WorkVideoSection />
         </Suspense>
 
         <Suspense fallback={<SectionSkeleton />}>

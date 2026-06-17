@@ -70,6 +70,12 @@ const resources = {
         "errorNotFoundHeader": "Article not found or not published.",
         "errorFetchArticle": "Failed to load article.",
         "errorNotFoundFallback": "Article not found."
+      },
+      "videos": {
+        "title": "Videos",
+        "workVideos": "Featured Videos",
+        "errorLoadList": "Failed to load videos.",
+        "noVideos": "No videos found."
       }
     }
   },
@@ -141,6 +147,12 @@ const resources = {
         "errorNotFoundHeader": "Artikel tidak ditemukan atau belum dipublikasikan.",
         "errorFetchArticle": "Gagal memuat artikel.",
         "errorNotFoundFallback": "Artikel tidak ditemukan."
+      },
+      "videos": {
+        "title": "Video",
+        "workVideos": "Video Pekerjaan",
+        "errorLoadList": "Gagal memuat daftar video.",
+        "noVideos": "Belum ada video pekerjaan."
       }
     }
   }

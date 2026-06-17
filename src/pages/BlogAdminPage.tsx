@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import type { FormEvent } from "react";
 import { useAuth, useClerk, useUser } from "@clerk/react";
-import { AlertCircle, Code, LoaderCircle, LogOut, Plus, Save, Trash2 } from "lucide-react";
+import { AlertCircle, Code, LoaderCircle, LogOut, Plus, Save, Trash2, Sparkles, RefreshCw, Pencil, Video } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import rehypeHighlight from "rehype-highlight";
@@ -16,6 +16,14 @@ import {
   updateBlogPost,
 } from "@/backend/services/blogService";
 import type { BlogPostAdminItem, BlogPostUpsertInput } from "@/backend/types/blog";
+import {
+  getAdminWorkVideos,
+  createWorkVideo,
+  updateWorkVideo,
+  deleteWorkVideo,
+  fetchVideoMetadata,
+} from "@/backend/services/workVideoService";
+import type { WorkVideo } from "@/backend/types/video";
 import { supabase, supabaseConfigError } from "@/backend/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -125,6 +133,20 @@ export default function BlogAdminPage() {
   const [message, setMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
 
+  // Work Videos State
+  const [videos, setVideos] = useState<WorkVideo[]>([]);
+  const [selectedVideoId, setSelectedVideoId] = useState<string | null>(null);
+  const [videoUrl, setVideoUrl] = useState("");
+  const [videoTitle, setVideoTitle] = useState("");
+  const [videoPlatform, setVideoPlatform] = useState<"tiktok" | "instagram" | "youtube" | "">("");
+  const [videoEmbedUrl, setVideoEmbedUrl] = useState("");
+  const [videoSortOrder, setVideoSortOrder] = useState("0");
+  const [isVideosLoading, setIsVideosLoading] = useState(false);
+  const [isFetchingVideo, setIsFetchingVideo] = useState(false);
+  const [isSavingVideo, setIsSavingVideo] = useState(false);
+  const [videoMessage, setVideoMessage] = useState("");
+  const [videoErrorMessage, setVideoErrorMessage] = useState("");
+
   const selectedPost = useMemo(
     () => posts.find((post) => post.id === selectedPostId) ?? null,
     [posts, selectedPostId]
@@ -176,17 +198,144 @@ export default function BlogAdminPage() {
     }
   };
 
+  const loadVideos = async () => {
+    setIsVideosLoading(true);
+    setVideoErrorMessage("");
+    try {
+      const accessToken = await getSupabaseAccessToken();
+      const data = await getAdminWorkVideos(accessToken);
+      setVideos(data);
+    } catch (error) {
+      setVideoErrorMessage(getReadableErrorMessage(error, "Gagal memuat data video."));
+    } finally {
+      setIsVideosLoading(false);
+    }
+  };
+
   useEffect(() => {
     if (!isLoaded || !isSignedIn) {
       setPosts([]);
       setSelectedPostId(null);
       setEditor(createDefaultEditorState());
+      setVideos([]);
       return;
     }
 
     loadPosts();
+    loadVideos();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isLoaded, isSignedIn]);
+
+  const handleFetchVideoMetadata = async () => {
+    if (!videoUrl.trim()) {
+      setVideoErrorMessage("Masukkan link video terlebih dahulu.");
+      return;
+    }
+    setIsFetchingVideo(true);
+    setVideoErrorMessage("");
+    setVideoMessage("");
+    try {
+      const meta = await fetchVideoMetadata(videoUrl);
+      setVideoTitle(meta.title);
+      setVideoPlatform(meta.platform);
+      setVideoEmbedUrl(meta.embedUrl);
+      setVideoMessage("Berhasil mengambil data video secara otomatis!");
+    } catch (error) {
+      setVideoErrorMessage(getReadableErrorMessage(error, "Gagal mengambil data video secara otomatis. Silakan isi detail di bawah secara manual."));
+    } finally {
+      setIsFetchingVideo(false);
+    }
+  };
+
+  const handleSaveVideo = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    if (!videoUrl.trim()) {
+      setVideoErrorMessage("Link video wajib diisi.");
+      return;
+    }
+    if (!videoTitle.trim()) {
+      setVideoErrorMessage("Keterangan/Judul video wajib diisi.");
+      return;
+    }
+    if (!videoPlatform || !videoEmbedUrl) {
+      setVideoErrorMessage("Platform dan Embed URL harus terisi (klik 'Ambil' terlebih dahulu).");
+      return;
+    }
+
+    setIsSavingVideo(true);
+    setVideoMessage("");
+    setVideoErrorMessage("");
+
+    try {
+      const accessToken = await getSupabaseAccessToken();
+      const payload = {
+        title: videoTitle.trim(),
+        videoUrl: videoUrl.trim(),
+        platform: videoPlatform as any,
+        embedUrl: videoEmbedUrl,
+        sortOrder: parseInt(videoSortOrder) || 0,
+      };
+
+      if (selectedVideoId) {
+        const updated = await updateWorkVideo(selectedVideoId, payload, accessToken);
+        setVideos((current) => current.map((item) => (item.id === updated.id ? updated : item)));
+        setVideoMessage("Video berhasil diperbarui.");
+      } else {
+        const created = await createWorkVideo(payload, accessToken);
+        setVideos((current) => [...current, created].sort((a, b) => a.sortOrder - b.sortOrder));
+        setVideoMessage("Video baru berhasil ditambahkan.");
+      }
+      resetVideoForm();
+    } catch (error) {
+      setVideoErrorMessage(getReadableErrorMessage(error, "Gagal menyimpan video."));
+    } finally {
+      setIsSavingVideo(false);
+    }
+  };
+
+  const handleDeleteVideo = async (video: WorkVideo) => {
+    if (!window.confirm(`Hapus video "${video.title}"?`)) {
+      return;
+    }
+    setIsSavingVideo(true);
+    setVideoMessage("");
+    setVideoErrorMessage("");
+    try {
+      const accessToken = await getSupabaseAccessToken();
+      await deleteWorkVideo(video.id, accessToken);
+      setVideos((current) => current.filter((item) => item.id !== video.id));
+      setVideoMessage("Video berhasil dihapus.");
+      if (selectedVideoId === video.id) {
+        resetVideoForm();
+      }
+    } catch (error) {
+      setVideoErrorMessage(getReadableErrorMessage(error, "Gagal menghapus video."));
+    } finally {
+      setIsSavingVideo(false);
+    }
+  };
+
+  const selectVideo = (video: WorkVideo) => {
+    setSelectedVideoId(video.id);
+    setVideoUrl(video.videoUrl);
+    setVideoTitle(video.title);
+    setVideoPlatform(video.platform);
+    setVideoEmbedUrl(video.embedUrl);
+    setVideoSortOrder(String(video.sortOrder));
+    setVideoMessage("");
+    setVideoErrorMessage("");
+  };
+
+  const resetVideoForm = () => {
+    setSelectedVideoId(null);
+    setVideoUrl("");
+    setVideoTitle("");
+    setVideoPlatform("");
+    setVideoEmbedUrl("");
+    setVideoSortOrder("0");
+    setVideoMessage("");
+    setVideoErrorMessage("");
+  };
 
   const handleSignOut = async () => {
     await signOut({ redirectUrl: "/" });
@@ -619,6 +768,197 @@ export default function BlogAdminPage() {
             </div>
           </form>
         </Card>
+      </div>
+
+      {/* Video Section */}
+      <div className="mt-16 border-t border-border pt-12">
+        <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
+          <div>
+            <h2 className="text-2xl font-bold text-primary flex items-center gap-2">
+              <Video className="h-6 w-6 text-primary" />
+              Kelola Video Pekerjaan
+            </h2>
+            <p className="mt-1 text-sm text-muted-foreground">
+              Tampilkan video hasil pekerjaan berformat 9:16 (TikTok, Instagram Reel, YouTube Shorts) di halaman utama.
+            </p>
+          </div>
+        </div>
+
+        {videoMessage ? <p className="mb-4 text-sm text-green-600">{videoMessage}</p> : null}
+        {videoErrorMessage ? <p className="mb-4 text-sm text-destructive">{videoErrorMessage}</p> : null}
+
+        <div className="grid grid-cols-1 gap-6 xl:grid-cols-[1fr_420px]">
+          {/* Left: Video list/grid */}
+          <Card className="border-primary/20 bg-card/70 px-4 py-5 md:px-6">
+            <h3 className="text-lg font-semibold mb-4">Daftar Video</h3>
+            {isVideosLoading ? (
+              <p className="text-sm text-muted-foreground py-4">Memuat daftar video...</p>
+            ) : videos.length === 0 ? (
+              <p className="text-sm text-muted-foreground py-4">Belum ada video pekerjaan yang ditambahkan.</p>
+            ) : (
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+                {videos.map((vid) => (
+                  <div
+                    key={vid.id}
+                    className={`group relative flex flex-col rounded-lg border bg-background/50 overflow-hidden transition-all ${
+                      vid.id === selectedVideoId
+                        ? "border-primary ring-1 ring-primary"
+                        : "border-border hover:border-primary/40"
+                    }`}
+                  >
+                    {/* Portrait 9:16 aspect ratio preview container */}
+                    <div className="relative aspect-[9/16] w-full bg-black/80 overflow-hidden">
+                      <iframe
+                        src={vid.embedUrl}
+                        className="absolute inset-0 w-full h-full border-0 pointer-events-none group-hover:pointer-events-auto"
+                        title={vid.title}
+                        allowFullScreen
+                      />
+                      <div className="absolute top-2 right-2 bg-background/80 backdrop-blur-sm px-2 py-0.5 rounded text-[10px] font-semibold uppercase tracking-wider text-primary">
+                        {vid.platform}
+                      </div>
+                    </div>
+                    <div className="p-3 flex-1 flex flex-col justify-between">
+                      <p className="text-xs font-medium line-clamp-2 text-foreground mb-3" title={vid.title}>
+                        {vid.title}
+                      </p>
+                      <div className="flex items-center justify-between text-[11px] text-muted-foreground">
+                        <span>Urutan: {vid.sortOrder}</span>
+                        <div className="flex gap-1.5">
+                          <button
+                            type="button"
+                            onClick={() => selectVideo(vid)}
+                            className="p-1 rounded bg-muted hover:bg-primary/20 hover:text-primary transition"
+                            title="Edit"
+                          >
+                            <Pencil className="h-3.5 w-3.5" />
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => handleDeleteVideo(vid)}
+                            className="p-1 rounded bg-muted hover:bg-destructive/20 hover:text-destructive transition"
+                            title="Hapus"
+                          >
+                            <Trash2 className="h-3.5 w-3.5" />
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </Card>
+
+          {/* Right: Upload and edit form */}
+          <Card className="border-primary/20 bg-card/70 px-4 py-5 md:px-6 h-fit">
+            <h3 className="text-lg font-semibold mb-4">
+              {selectedVideoId ? "Edit Video Pekerjaan" : "Tambah Video Pekerjaan Baru"}
+            </h3>
+            <form onSubmit={handleSaveVideo} className="flex flex-col gap-4">
+              <div className="flex flex-col gap-1.5 text-sm">
+                <label className="font-medium">Link Video (TikTok, IG, YT)</label>
+                <div className="flex gap-2">
+                  <input
+                    required
+                    type="url"
+                    value={videoUrl}
+                    onChange={(e) => setVideoUrl(e.target.value)}
+                    className="h-10 w-full rounded-md border border-border bg-background px-3 text-sm focus:ring-1 focus:ring-primary/30"
+                    placeholder="https://tiktok.com/@username/video/... atau YouTube / Instagram"
+                  />
+                  <Button
+                    type="button"
+                    variant="outline"
+                    onClick={handleFetchVideoMetadata}
+                    disabled={isFetchingVideo}
+                    className="shrink-0"
+                  >
+                    {isFetchingVideo ? (
+                      <RefreshCw className="h-4 w-4 animate-spin" />
+                    ) : (
+                      <Sparkles className="h-4 w-4 text-yellow-500 mr-1" />
+                    )}
+                    Ambil
+                  </Button>
+                </div>
+                <p className="text-[11px] text-muted-foreground">
+                  Masukkan link share dari TikTok (termasuk vt.tiktok.com), Instagram Reel/Post, atau YouTube Shorts/Video.
+                </p>
+              </div>
+
+              <div className="flex flex-col gap-1.5 text-sm">
+                <label className="font-medium">Keterangan / Deskripsi Video</label>
+                <textarea
+                  required
+                  rows={4}
+                  value={videoTitle}
+                  onChange={(e) => setVideoTitle(e.target.value)}
+                  className="rounded-md border border-border bg-background px-3 py-2 text-sm focus:ring-1 focus:ring-primary/30"
+                  placeholder="Keterangan video portofolio Anda..."
+                />
+              </div>
+
+              <div className="grid grid-cols-2 gap-4">
+                <div className="flex flex-col gap-1.5 text-sm">
+                  <label className="font-medium">Platform</label>
+                  <input
+                    disabled
+                    value={videoPlatform ? videoPlatform.toUpperCase() : "-"}
+                    className="h-10 rounded-md border border-border bg-muted/50 px-3 text-sm"
+                  />
+                </div>
+
+                <div className="flex flex-col gap-1.5 text-sm">
+                  <label className="font-medium">Urutan Tampil (Sort Order)</label>
+                  <input
+                    type="number"
+                    min={0}
+                    value={videoSortOrder}
+                    onChange={(e) => setVideoSortOrder(e.target.value)}
+                    className="h-10 rounded-md border border-border bg-background px-3 text-sm focus:ring-1 focus:ring-primary/30"
+                  />
+                </div>
+              </div>
+
+              {videoEmbedUrl && (
+                <div className="flex flex-col items-center border border-border/60 rounded-lg p-3 bg-background/20 mt-2">
+                  <span className="text-[11px] font-semibold text-muted-foreground mb-2 uppercase tracking-wide">
+                    Live Preview (Aspect Ratio 9:16)
+                  </span>
+                  <div className="relative aspect-[9/16] w-[150px] rounded-md overflow-hidden bg-black shadow-lg border border-border">
+                    <iframe
+                      src={videoEmbedUrl}
+                      className="absolute inset-0 w-full h-full border-0"
+                      allowFullScreen
+                    />
+                  </div>
+                </div>
+              )}
+
+              <div className="flex gap-2 pt-2">
+                <Button disabled={isSavingVideo} type="submit" className="w-full">
+                  {isSavingVideo ? (
+                    <>
+                      <RefreshCw className="h-4 w-4 animate-spin mr-2" />
+                      Menyimpan...
+                    </>
+                  ) : (
+                    <>
+                      <Save className="h-4 w-4 mr-2" />
+                      {selectedVideoId ? "Update Video" : "Simpan Video"}
+                    </>
+                  )}
+                </Button>
+                {selectedVideoId && (
+                  <Button type="button" variant="outline" onClick={resetVideoForm}>
+                    Batal
+                  </Button>
+                )}
+              </div>
+            </form>
+          </Card>
+        </div>
       </div>
     </div>
   );
