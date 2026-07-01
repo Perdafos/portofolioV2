@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { useTranslation } from "react-i18next";
 
-// const dafaImage = "/images/dafa.webp";
+const dafaImage = "/images/dafa.webp";
 
 export default function HeroSection() {
   const { t } = useTranslation();
@@ -10,7 +10,7 @@ export default function HeroSection() {
     <section
       className="flex min-h-[calc(100dvh-7rem)] md:min-h-[calc(100dvh-8rem)] flex-col justify-center items-center w-full mx-auto px-4 md:px-6"
     >
-      {/* <div className="w-30 h-30 overflow-hidden rounded-full aspect-square bg-muted">
+      <div className="w-30 h-30 overflow-hidden rounded-full aspect-square bg-muted">
         <img
           src={dafaImage}
           className="w-full h-full object-cover"
@@ -20,7 +20,7 @@ export default function HeroSection() {
           loading="eager"
           fetchPriority="high"
         />
-      </div> */}
+      </div>
       <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-center mt-6">
         {t("hero.title1")}{" "}
         <span className="gradient-text">{t("hero.title2")}</span>
