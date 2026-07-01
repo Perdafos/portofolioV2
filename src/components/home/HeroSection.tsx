@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { useTranslation } from "react-i18next";
 
-const dafaImage = "/images/dafa.webp";
+// const dafaImage = "/images/dafa.webp";
 
 export default function HeroSection() {
   const { t } = useTranslation();
